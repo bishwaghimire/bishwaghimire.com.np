@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bishwa | Developer Portfolio</title>
+
+
+  <!-- Font Awesome CDN -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+  integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">Bishwa Ghimire</div>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+<!-- Home Section -->
+<section id="home" class="section home">
+  <div class="home-content">
+    <!-- Intro Text -->
+    <div class="intro-text">
+      <p id="welcome-message">👋 Welcome to my portfolio</p>
+      <h1>Hello, I'm <span>Bishwa</span></h1>
+      <p class="tagline">Aspiring Machine Learning Engineer & Creative Web Developer</p>
+
+      <!-- Download Resume Button -->
+      <a href="assets/resume.pdf" download class="resume-btn disabled">📄 Download Resume (coming soon)</a>
+
+      <!-- CTA Buttons -->
+      <div class="cta-buttons">
+        <a href="#contact" class="btn primary-btn">
+          <span>Get in Touch</span>
+          <i class="fas fa-paper-plane"></i>
+        </a>
+        <a href="#projects" class="btn secondary-btn">
+          <span>View My Work</span>
+          <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Social Links -->
+      <div class="social-links">
+        <a href="https://github.com/bishwaghimire" target="_blank" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/bishwa-ghimire-66bb5939b" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="#" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.facebook.com/bishwaghimire4560" target="_blank" aria-label="Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Profile Photo -->
+    <div class="profile-photo">
+      <img src="assets/my-profile.jpg" alt="Profile Photo">
+    </div>
+  </div>
+</section>
+
+
+<!-- About Me Section -->
+<section id="about" class="section about">
+  <div class="about-card">
+    <h2>About Me</h2>
+    <p class="about-subtitle">Get To Know More</p>
+  </div>
+  <div class="about-container">
+
+    <!-- Left: Photo -->
+    <div class="about-photo">
+      <img src="assets/my-profile.jpg" alt="Bishwa Ghimire">
+    </div>
+
+    <!-- Right: Info + Description -->
+    <div class="about-info">
+      <div class="info-cards">
+        <div class="info-card">
+          <div class="icon">💻</div>
+          <h4>Experience</h4>
+          <p>1+ Years</p>
+          <p>Coding & AI Exploration</p>
+        </div>
+        <div class="info-card">
+          <div class="icon">🎓</div>
+          <h4>Education</h4>
+          <p>BSc. CSIT</p>
+          <p>Butwal Multiple Campus <br> Tribhuvan University</p>
+        </div>
+      </div>
+
+      <div class="about-text">
+        <p>Hi, I'm Bishwa Ghimire, a BSc. CSIT student exploring the world of technology and development. I'm curious about AI, machine learning, and building projects that help me learn something new every day.</p>
+        <p>Right now, I enjoy experimenting with coding, creating small projects, and understanding how software and AI work. My goal is to grow my skills step by step and discover where my interests truly lie.</p>
+        <p>When I'm not coding or learning, I like reading about technology, researching AI ideas, and imagining what the future of tech could look like.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  <!-- Projects Section -->
+<section id="projects" class="section projects">
+  <h2>Projects</h2>
+  <div class="project-list" id="projectList"></div>
+</section>
+
+<!-- PROJECT MODAL -->
+<div class="project-modal" id="projectModal">
+  <div class="modal-content">
+    <span class="close-modal" id="closeModal">&times;</span>
+
+    <h3 id="modalTitle"></h3>
+    <p id="modalDescription"></p>
+    <p class="modal-tech" id="modalTech"></p>
+
+    <div class="modal-links">
+      <a id="modalGithub" target="_blank" rel="noopener noreferrer">🐙 GitHub</a>
+      <a id="modalDemo" target="_blank" rel="noopener noreferrer">🚀 Live Demo</a>
+
+    </div>
+  </div>
+</div>
+
+<!-- Experience & Education Section -->
+<section id="experience" class="section experience-section">
+
+  <div class="section-header center">
+    <h4 class="section-subtitle">My Journey</h4>
+    <h2 class="section-title">Experience & <span>Education</span></h2>
+  </div>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-date">2024 - Present</div>
+      <div class="timeline-content">
+        <h4>BSc. CSIT</h4>
+        <h5>Butwal Multiple Campus (Tribhuvan University)</h5>
+        <p>
+          Pursuing bachelor's degree in Computer Science and Information Technology,
+          exploring AI, Machine Learning, and software development.
+        </p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2025</div>
+      <div class="timeline-content">
+        <h4>Machine Learning Projects</h4>
+        <h5>Personal Research & Practice</h5>
+        <p>
+          Built ML models and experimented with neural networks, focusing on
+          practical implementation and project-based learning.
+        </p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2024</div>
+      <div class="timeline-content">
+        <h4>Web Development Workshop</h4>
+        <h5>Synthbit Technologies</h5>
+        <p>
+          Learned frontend fundamentals including HTML, CSS, JavaScript,
+          and responsive design principles.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+  <!-- Contact Section -->
+<section id="contact" class="contact-section">
+  <div class="container">
+    <h2 class="section-title">Contact <span>Me</span></h2>
+
+    <div class="contact-grid">
+      <!-- Left Info Cards -->
+      <div class="contact-info">
+        <div class="info-card">
+          <div class="icon">✉</div>
+          <div>
+            <h4>Email</h4>
+            <p>bishwaghimire4560@gmail.com</p>
+            <a href="mailto:bishwaghimire4560@gmail.com">Send Message →</a>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="icon">📞</div>
+          <div>
+            <h4>Phone</h4>
+            <p>+977 9746380827</p>
+            <a href="tel:+9779746380827">Call Me →</a>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="icon">📍</div>
+          <div>
+            <h4>Location</h4>
+            <p>Butwal, Nepal</p>
+            <a href="https://www.google.com/maps?q=Butwal,Nepal" target="_blank" style="text-decoration:none; ">
+              View Map →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Form -->
+      <form class="contact-form">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="John Doe" required />
+        </div>
+
+        <div class="form-group">
+          <label>Your Email</label>
+          <input type="email" placeholder="me@example.com" required />
+        </div>
+
+        <div class="form-group">
+          <label>Subject</label>
+          <input type="text" placeholder="I'd like to talk about..." />
+        </div>
+
+        <div class="form-group">
+          <label>Your Message</label>
+          <textarea rows="5" placeholder="Write your message here..." required></textarea>
+        </div>
+
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Chatbot Widget -->
+<div class="chatbot-container" id="chatbot">
+  <div class="chat-header">
+    <img src="assets/bot-avatar.png" alt="Bot" class="bot-avatar">
+    <span>Ask Bishow Bot 🤖</span>
+    <button id="close-chat">&times;</button>
+  </div>
+  <div class="chat-body" id="chat-body"></div>
+  <div class="chat-input-area">
+    <input type="text" id="user-input" placeholder="Ask me anything..." />
+    <button id="send-btn">Send</button>
+  </div>
+</div>
+
+<!-- Scroll To Top Button -->
+<a href="#home" id="scrollTopBtn">
+  <i class="fas fa-arrow-up"></i>
+</a>
+
+
+<!-- Floating Button -->
+<div id="chat-toggle">
+  💬
+</div>
+
+
+
+  <footer>
+    <p>&copy; 2025 Bishow. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

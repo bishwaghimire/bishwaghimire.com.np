@@ -1,0 +1,52 @@
+[
+  {
+    "id": "cnn",
+    "title": "Nepali Handwritten Character Recognition",
+    "short": "CNN-based handwritten recognition",
+    "description": "A CNN-based research project focusing on recognizing Nepali handwritten characters with character-wise accuracy analysis using PyTorch.",
+    "tech": "Python, PyTorch",
+    "image": "assets/projects/profile.jpg",
+    "github": "https://github.com/username/cnn-project",
+    "demo": "#"
+  },
+  {
+    "id": "ott",
+    "title": "Mini OTT Platform",
+    "short": "Frontend movie streaming UI",
+    "description": "A frontend OTT-style platform built using HTML, CSS, and JavaScript featuring movie posters, trailers, overlays, and interactive UI.",
+    "tech": "HTML, CSS, JavaScript",
+    "image": "assets/projects/profile.jpg",
+    "github": "https://github.com/username/mini-ott",
+    "demo": "#"
+  },
+  {
+    "id": "titanic",
+    "title": "🚢 Titanic Survival Predictor",
+    "short": "ML model predicting passenger survival.",
+    "description": "A machine learning model trained on the Titanic dataset to predict survival based on age, gender, fare, and passenger class, along with EDA insights.",
+    "tech": "Python, pandas, scikit-learn, seaborn",
+    "image": "assets/projects/profile.jpg",
+    "github": "https://github.com/username/project",
+    "demo": "https://username.github.io/project"
+  },
+  {
+    "id": "fake-news",
+    "title": "📰 Fake News Detection (NLP)",
+    "short": "Detects fake news headlines.",
+    "description": "TF-IDF based NLP classifier using Logistic Regression to detect fake news headlines with text preprocessing techniques.",
+    "tech": "Python, NLP, scikit-learn",
+    "image": "assets/projects/profile.jpg",
+    "github": "https://github.com/username/project",
+    "demo": "https://username.github.io/project"
+  },
+  {
+    "id": "iris",
+    "title": "🌸 Iris Flower Classifier",
+    "short": "Predicts Iris species.",
+    "description": "A classic ML project that predicts Iris flower species using four features with Logistic Regression.",
+    "tech": "Python, scikit-learn",
+    "image": "assets/projects/profile.jpg",
+    "github": "https://github.com/username/project",
+    "demo": "https://username.github.io/project"
+  }
+]
