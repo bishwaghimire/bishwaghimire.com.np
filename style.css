@@ -632,13 +632,15 @@ header {
     backdrop-filter: blur(10px);
     border-radius: 12px;
     padding: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 
 .timeline-content:hover {
-    transform: translateX(8px);
+    transform: translateX(8px) scale(1.02);
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border: 1.5px solid var(--accent);
 }
 
 
@@ -943,7 +945,7 @@ header {
   padding: 14px;
   border-radius: 12px;
   border: none;
-  background: var(--accent);
+  background: var(--primary);
   color: white;
   font-size: 16px;
   font-weight: 600;
@@ -952,6 +954,10 @@ header {
 
 .contact-form button:hover {
   opacity: 0.9;
+  background: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
 }
 
 /* Responsive */
