@@ -160,7 +160,7 @@ const faq = [
   {
     keywords: ["hello", "hi", "hey"],
     answer: [
-      "Hello 👋 I'm Bishow Bot. Ask me about AI, projects, or skills.",
+      "Hello 👋 I'm Bishwa Bot. Ask me about AI, projects, or skills.",
       "Hi there! 🤖 Ready to explore some intelligent systems?",
       "Hey! Let’s talk about AI and innovation."
     ]
@@ -169,7 +169,7 @@ const faq = [
   // Identity
   {
     keywords: ["name", "who are you"],
-    answer: `I'm Bishow Bot 🤖 representing ${PROFILE.name}.`
+    answer: `I'm Bishwa Bot 🤖 representing ${PROFILE.name}.`
   },
 
   {
@@ -277,7 +277,7 @@ const faq = [
 chatToggle.addEventListener("click", () => {
   chatbot.style.display = "flex";
   if (!greeted) {
-    addMessage("bot", "Hi there! 👋 I'm Bishow Bot. Ask me about AI, projects, skills, or collaborations.");
+    addMessage("bot", "Hi there! 👋 I'm Bishwa Bot. Ask me about AI, projects, skills, or collaborations.");
     greeted = true;
   }
 });
@@ -322,7 +322,7 @@ function showTyping() {
   const typingDiv = document.createElement("div");
   typingDiv.className = "chat-message bot typing";
   typingDiv.id = "typing-indicator";
-  typingDiv.textContent = "Bishow Bot is typing...";
+  typingDiv.textContent = "Bishwa Bot is typing...";
   chatBody.appendChild(typingDiv);
   chatBody.scrollTop = chatBody.scrollHeight;
 }
