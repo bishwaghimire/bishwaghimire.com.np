@@ -6,11 +6,31 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     if (target) {
       target.scrollIntoView({ behavior: "smooth" });
     }
+    // Close mobile menu on link click
+    navLinks.classList.remove("open");
+    hamburger.classList.remove("open");
   });
 });
 
 
+// ========================
+// HAMBURGER MENU
+// ========================
+const hamburger = document.getElementById("hamburger");
+const navLinks = document.getElementById("navLinks");
 
+hamburger.addEventListener("click", () => {
+  navLinks.classList.toggle("open");
+  hamburger.classList.toggle("open");
+});
+
+// Close nav when clicking outside
+document.addEventListener("click", (e) => {
+  if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+    navLinks.classList.remove("open");
+    hamburger.classList.remove("open");
+  }
+});
 
 
 // projects section
@@ -162,7 +182,7 @@ const faq = [
     answer: [
       "Hello 👋 I'm Bishwa Bot. Ask me about AI, projects, or skills.",
       "Hi there! 🤖 Ready to explore some intelligent systems?",
-      "Hey! Let’s talk about AI and innovation."
+      "Hey! Let's talk about AI and innovation."
     ]
   },
 
@@ -260,7 +280,7 @@ const faq = [
 
   {
     keywords: ["sleep", "night owl"],
-    answer: "⚡ Call him when others are wasting time sleeping — he’ll be training models and chasing the future of AI."
+    answer: "⚡ Call him when others are wasting time sleeping — he'll be training models and chasing the future of AI."
   },
 
   {
@@ -276,6 +296,7 @@ const faq = [
 
 chatToggle.addEventListener("click", () => {
   chatbot.style.display = "flex";
+  scrollBtn.style.display = "none"; // hide arrow when chatbot opens
   if (!greeted) {
     addMessage("bot", "Hi there! 👋 I'm Bishwa Bot. Ask me about AI, projects, skills, or collaborations.");
     greeted = true;
@@ -284,6 +305,8 @@ chatToggle.addEventListener("click", () => {
 
 closeChat.addEventListener("click", () => {
   chatbot.style.display = "none";
+  // restore scroll button if user has scrolled enough
+  if (window.scrollY > 300) scrollBtn.style.display = "flex";
 });
 
 sendBtn.addEventListener("click", sendMessage);
