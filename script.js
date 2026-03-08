@@ -1,36 +1,104 @@
+// ─── Find these lines in your script.js where you open/close the modal
+//     and add the body.modal-open class toggle ───────────────────────────
+
+// WHERE YOU OPEN THE MODAL — add this line:
+document.body.classList.add('modal-open');
+
+// Example (your open code probably looks something like this):
+// projectModal.classList.add('open');
+// document.body.classList.add('modal-open');   ← ADD THIS
+
+
+// WHERE YOU CLOSE THE MODAL — add this line:
+document.body.classList.remove('modal-open');
+
+// Example (your close code probably looks something like this):
+// projectModal.classList.remove('open');
+// document.body.classList.remove('modal-open'); ← ADD THIS
+
+
+// ─── Also add this so clicking the dark OVERLAY closes the modal ──────────
+const projectModal = document.getElementById('projectModal');
+
+projectModal.addEventListener('click', function (e) {
+  // Only close if user clicked the overlay itself, not the modal card
+  if (e.target === projectModal) {
+    projectModal.classList.remove('open');
+    document.body.classList.remove('modal-open');
+  }
+});
+
+
 // Smooth scroll to anchors
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener("click", function (e) {
     e.preventDefault();
     const target = document.querySelector(this.getAttribute("href"));
     if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
+      const headerHeight = document.querySelector('header').offsetHeight;
+      const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+      window.scrollTo({ top: targetPosition, behavior: "smooth" });
     }
-    // Close mobile menu on link click
-    navLinks.classList.remove("open");
-    hamburger.classList.remove("open");
   });
 });
 
+// ─── Dark Mode Toggle ────────────────────────────────────────
 
-// ========================
-// HAMBURGER MENU
-// ========================
-const hamburger = document.getElementById("hamburger");
-const navLinks = document.getElementById("navLinks");
+/* ─── Shorthand ────────────────────────────────── */
+    const $id = id => document.getElementById(id);
 
-hamburger.addEventListener("click", () => {
-  navLinks.classList.toggle("open");
-  hamburger.classList.toggle("open");
-});
+    /* ─── Dark Mode ────────────────────────────────── */
+    const darkBtn     = $id('darkModeToggle');
+    const toggleIcon  = darkBtn.querySelector('.toggle-icon');
+    const toggleLabel = darkBtn.querySelector('.toggle-label');
 
-// Close nav when clicking outside
-document.addEventListener("click", (e) => {
-  if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
-    navLinks.classList.remove("open");
-    hamburger.classList.remove("open");
-  }
-});
+    function applyDark(on) {
+      document.body.classList.toggle('dark-mode', on);
+      toggleIcon.textContent  = on ? '☀️' : '🌙';
+      toggleLabel.textContent = on ? 'Light' : 'Dark';
+      localStorage.setItem('darkMode', on ? '1' : '0');
+    }
+
+    // Restore on page load
+    applyDark(localStorage.getItem('darkMode') === '1');
+
+    darkBtn.addEventListener('click', () =>
+      applyDark(!document.body.classList.contains('dark-mode'))
+    );
+
+    /* ─── Hamburger Menu ───────────────────────────── */
+    const hamburger  = $id('hamburger');
+    const mobileMenu = $id('mobileMenu');
+
+    function openMenu(state) {
+      hamburger.classList.toggle('open', state);
+      mobileMenu.classList.toggle('open', state);
+      hamburger.setAttribute('aria-expanded', String(state));
+      mobileMenu.setAttribute('aria-hidden',  String(!state));
+    }
+
+    hamburger.addEventListener('click', e => {
+      e.stopPropagation();
+      openMenu(!hamburger.classList.contains('open'));
+    });
+
+    // Close on mobile link click
+    document.querySelectorAll('.mobile-link').forEach(link =>
+      link.addEventListener('click', () => openMenu(false))
+    );
+
+    // Close when clicking anywhere outside the header
+    document.addEventListener('click', e => {
+      if (!e.target.closest('header')) openMenu(false);
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') openMenu(false);
+    });
+
+
+
 
 
 // projects section
@@ -106,18 +174,26 @@ function openModal(project) {
 
   // Show modal
   modal.style.display = "flex";
+  document.body.classList.add('modal-open');
 }
 
 closeModal.addEventListener("click", () => {
   modal.style.display = "none";
+  document.body.classList.remove('modal-open');
 });
 
 modal.addEventListener("click", e => {
-  if (e.target === modal) modal.style.display = "none";
+  if (e.target === modal) {
+    modal.style.display = "none";
+    document.body.classList.remove('modal-open');
+  }
 });
 
 document.addEventListener("keydown", e => {
-  if (e.key === "Escape") modal.style.display = "none";
+  if (e.key === "Escape") {
+    modal.style.display = "none";
+    document.body.classList.remove('modal-open');
+  }
 });
 
 
@@ -182,7 +258,7 @@ const faq = [
     answer: [
       "Hello 👋 I'm Bishwa Bot. Ask me about AI, projects, or skills.",
       "Hi there! 🤖 Ready to explore some intelligent systems?",
-      "Hey! Let's talk about AI and innovation."
+      "Hey! Let’s talk about AI and innovation."
     ]
   },
 
@@ -280,7 +356,7 @@ const faq = [
 
   {
     keywords: ["sleep", "night owl"],
-    answer: "⚡ Call him when others are wasting time sleeping — he'll be training models and chasing the future of AI."
+    answer: "⚡ Call him when others are wasting time sleeping — he’ll be training models and chasing the future of AI."
   },
 
   {
@@ -296,7 +372,7 @@ const faq = [
 
 chatToggle.addEventListener("click", () => {
   chatbot.style.display = "flex";
-  scrollBtn.style.display = "none"; // hide arrow when chatbot opens
+  document.body.classList.add('chat-open');
   if (!greeted) {
     addMessage("bot", "Hi there! 👋 I'm Bishwa Bot. Ask me about AI, projects, skills, or collaborations.");
     greeted = true;
@@ -305,8 +381,7 @@ chatToggle.addEventListener("click", () => {
 
 closeChat.addEventListener("click", () => {
   chatbot.style.display = "none";
-  // restore scroll button if user has scrolled enough
-  if (window.scrollY > 300) scrollBtn.style.display = "flex";
+  document.body.classList.remove('chat-open'); // ← ADD
 });
 
 sendBtn.addEventListener("click", sendMessage);
