@@ -148,9 +148,6 @@ function openModal(project) {
   if (!img) {
     img = document.createElement("img");
     img.className = "modal-img";
-    img.style.width = "100%";
-    img.style.borderRadius = "12px";
-    img.style.marginBottom = "15px";
     modal.querySelector(".modal-content").prepend(img);
   }
   img.src = project.image;
