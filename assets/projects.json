@@ -6,7 +6,7 @@
     "description": "A deep learning research project focused on recognizing 59 classes of Nepali handwritten characters using Convolutional Neural Networks (CNN). The project includes dataset preprocessing, model architecture design, training optimization, and detailed character-wise accuracy analysis using PyTorch.",
     "tech": "Python, PyTorch, NumPy, Matplotlib",
     "image": "assets/projects/profile.jpg",
-    "github": "https://github.com/bishwaghimire/nepali-handwritten-recognition",
+    "github": "https://github.com/bishwaghimire/nepali-handwritten-character-recognition-CNNs",
     "demo": "#"
   },
   {
