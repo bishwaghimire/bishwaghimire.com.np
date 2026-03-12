@@ -18,6 +18,7 @@
   <link rel="alternate" hreflang="en" href="https://bishwaghimire.com.np/">
   <link rel="alternate" hreflang="x-default" href="https://bishwaghimire.com.np/">
 
+  <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="shortcut icon" href="/favicon.ico" />
@@ -25,7 +26,7 @@
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="apple-mobile-web-app-title" content="Bishwa" />
 
-  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+  <link rel="preload" as="image" href="assets/my-profile.jpg">
 
   <!-- OPEN GRAPH -->
   <meta property="og:type"         content="website" />
@@ -33,21 +34,29 @@
   <meta property="og:title"        content="Bishwa Ghimire | AI &amp; Machine Learning Developer - Nepal" />
   <meta property="og:description"  content="AI &amp; ML Developer from Nepal specializing in Deep Learning, Computer Vision, and Nepali NLP using Python and PyTorch. Explore my projects and research." />
   <meta property="og:image"        content="https://bishwaghimire.com.np/assets/my-profile-1200x630.png" />
+  <meta property="og:image:type"   content="image/png" />
   <meta property="og:image:alt"    content="Profile picture of Bishwa Ghimire, AI &amp; ML Developer from Nepal">
   <meta property="og:image:width"  content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:locale"       content="en_US" />
   <meta property="og:site_name"    content="Bishwa Ghimire Portfolio" />
 
-  <meta itemprop="image" content="https://bishwaghimire.com.np/assets/my-profile.jpg" />
+  <link rel="me" href="https://github.com/bishwaghimire">
+  <link rel="me" href="https://www.linkedin.com/in/bishwa-ghimire-66bb5939b">
+  <link rel="me" href="https://www.facebook.com/bishwaghimire4560">
 
+
+  <meta property="profile:first_name" content="Bishwa">
+  <meta property="profile:last_name" content="Ghimire">
+  <meta property="profile:username" content="bishwaghimire">
   <!-- bing search  -->
   <meta name="msvalidate.01" content="F84CCD25FE01A9E4941C3F3200A693DD" />
 
   <!-- TWITTER CARD -->
   <meta name="twitter:card"        content="summary_large_image" />
   <meta property="twitter:domain" content="bishwaghimire.com.np">
-  <meta property="twitter:url" content="https://www.bishwaghimire.com.np/">
+  <meta name="twitter:creator" content="@bishwa4560">
+  <meta property="twitter:url" content="https://bishwaghimire.com.np/">
   <meta name="twitter:title"       content="Bishwa Ghimire | AI & Machine Learning Developer - Nepal" />
   <meta name="twitter:description" content="AI & ML Developer from Nepal specializing in Deep Learning, Computer Vision, and Nepali NLP using Python and PyTorch. Explore my projects and research." />
   <meta name="twitter:image"       content="https://bishwaghimire.com.np/assets/my-profile-1200x630.png" />
@@ -59,7 +68,12 @@
     "@type": "Person",
     "name": "Bishwa Ghimire",
     "url": "https://bishwaghimire.com.np/",
-    "image": "https://bishwaghimire.com.np/assets/my-profile.jpg",
+    "mainEntityOfPage": "https://bishwaghimire.com.np/",
+    "image": [
+    "https://bishwaghimire.com.np/assets/my-profile.jpg",
+    "https://bishwaghimire.com.np/assets/my-profile-512.jpg",
+    "https://bishwaghimire.com.np/assets/my-profile-1024.jpg"
+    ],
     "jobTitle": "AI & Machine Learning Developer",
     "description": "AI & Machine Learning Developer from Nepal specializing in Deep Learning, Computer Vision, and Nepali NLP using Python and PyTorch.",
     "email": "bishwaghimire4560@gmail.com",
@@ -104,11 +118,15 @@
 
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Bishwa Ghimire Portfolio",
-    "url": "https://bishwaghimire.com.np/"
-  }
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "Bishwa Ghimire Portfolio",
+ "url": "https://bishwaghimire.com.np/",
+ "author": {
+   "@type": "Person",
+   "name": "Bishwa Ghimire"
+ }
+}
   </script>
 
   <!-- PERFORMANCE: Preconnect -->
@@ -145,7 +163,7 @@
   <!-- NAVBAR -->
   <header>
     <nav class="navbar" aria-label="Main navigation">
-      <a href="#home" class="logo" aria-label="Bishwa Ghimire – Home">Bishwa Ghimire</a>
+      <a href="#home" class="logo" aria-label="Bishwa Ghimire - Home">Bishwa Ghimire</a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#about">About me</a></li>
         <li><a href="#projects">AI Projects</a></li>
@@ -194,9 +212,11 @@
           My work includes CNN-based Nepali Handwritten Character Recognition
           with character-wise accuracy analysis.
         </p>
-        <a href="assets/resume.pdf" download class="resume-btn disabled"
-           aria-label="Download Bishwa Ghimire's Resume (coming soon)">
-          📄 Download Resume (coming soon)
+        <a href="assets/Bishwa-Prasad-Ghimire-resume.pdf" 
+          download 
+          class="resume-btn"
+          aria-label="Download Bishwa Ghimire's Resume">
+          📄 Download Resume
         </a>
         <div class="cta-buttons">
           <a href="#projects" class="btn primary-btn">
@@ -222,7 +242,7 @@
       </div>
       <div class="profile-photo">
         <img src="assets/my-profile.jpg"
-             alt="Bishwa Ghimire – AI and Machine Learning Developer from Nepal"
+             alt="Bishwa Ghimire - AI and Machine Learning Developer from Nepal"
              width="280" height="280"
              loading="eager" fetchpriority="high">
       </div>
@@ -290,8 +310,8 @@
   <!-- PROJECT MODAL -->
   <div class="project-modal" id="projectModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-content">
-      <span class="close-modal" id="closeModal" role="button" aria-label="Close project details">&times;</span>
-      <h3 id="modalTitle" aria-label="Project title"></h3>
+      <button class="close-modal" id="closeModal" aria-label="Close project details">&times;</button>
+      <h3 id="modalTitle" tabindex="-1"></h3>
       <p id="modalDescription"></p>
       <p class="modal-tech" id="modalTech"></p>
       <div class="modal-links">

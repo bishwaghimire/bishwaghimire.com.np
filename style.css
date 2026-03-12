@@ -96,6 +96,7 @@ body.dark-mode .ham-line      { background: var(--text); }
 body.dark-mode .primary-btn,
 body.dark-mode .resume-btn,
 body.dark-mode .contact-form button,
+body.dark-mode #submit-btn,
 body.dark-mode .modal-links a {
   background: var(--btn-primary-bg);
   color: var(--btn-primary-text);
@@ -127,6 +128,11 @@ body.dark-mode #chat-toggle {
 
 body.dark-mode .chat-header {
   background: #252840;
+}
+
+body.dark-mode #submit-btn:hover {
+  background: var(--accent-hover);
+  opacity: 1;
 }
 
 /* ─── Reset ─────────────────────────────────────────────────── */
@@ -544,7 +550,7 @@ body.dark-mode #darkModeToggle .toggle-icon { transform:rotate(180deg); }
 .resume-btn.disabled {
   opacity: 0.45;
   cursor: not-allowed;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .resume-btn:hover:not(.disabled) {
@@ -995,6 +1001,7 @@ body.dark-mode #darkModeToggle .toggle-icon { transform:rotate(180deg); }
   z-index: 2;                     /* ← always above modal image */
   background: var(--surface);    /* ← small bg so it's readable over image */
   border-radius: 50%;
+  border: none;
   width: 28px;
   height: 28px;
   display: flex;
@@ -1138,7 +1145,7 @@ body.modal-open {
   transform: scaleX(1);
 }
 
-.skill-category h4 {
+.skill-category h3 {
   font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -1502,7 +1509,7 @@ body.modal-open {
 /* Button */
 #submit-btn {
   position: relative;
-  background: var(--accent);
+  background: var(--primary);
   color: #fff;
   padding: 12px 22px;
   border: none;

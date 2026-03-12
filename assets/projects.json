@@ -1,52 +1,52 @@
 [
   {
     "id": "cnn",
-    "title": "Nepali Handwritten Character Recognition",
-    "short": "CNN-based handwritten recognition",
-    "description": "A CNN-based research project focusing on recognizing Nepali handwritten characters with character-wise accuracy analysis using PyTorch.",
-    "tech": "Python, PyTorch",
+    "title": "Nepali Handwritten Character Recognition using CNN",
+    "short": "Deep Learning based Nepali OCR system",
+    "description": "A deep learning research project focused on recognizing 59 classes of Nepali handwritten characters using Convolutional Neural Networks (CNN). The project includes dataset preprocessing, model architecture design, training optimization, and detailed character-wise accuracy analysis using PyTorch.",
+    "tech": "Python, PyTorch, NumPy, Matplotlib",
     "image": "assets/projects/profile.jpg",
-    "github": "https://github.com/username/cnn-project",
-    "demo": "#"
-  },
-  {
-    "id": "ott",
-    "title": "Mini OTT Platform",
-    "short": "Frontend movie streaming UI",
-    "description": "A frontend OTT-style platform built using HTML, CSS, and JavaScript featuring movie posters, trailers, overlays, and interactive UI.",
-    "tech": "HTML, CSS, JavaScript",
-    "image": "assets/projects/profile.jpg",
-    "github": "https://github.com/username/mini-ott",
+    "github": "https://github.com/bishwaghimire/nepali-handwritten-recognition",
     "demo": "#"
   },
   {
     "id": "titanic",
-    "title": "🚢 Titanic Survival Predictor",
-    "short": "ML model predicting passenger survival.",
-    "description": "A machine learning model trained on the Titanic dataset to predict survival based on age, gender, fare, and passenger class, along with EDA insights.",
-    "tech": "Python, pandas, scikit-learn, seaborn",
+    "title": "Titanic Survival Prediction",
+    "short": "Supervised Machine Learning Classification Model",
+    "description": "A supervised machine learning model trained on the Titanic dataset to predict passenger survival. The project includes data cleaning, exploratory data analysis (EDA), feature engineering, and model training using Logistic Regression and other classifiers with performance evaluation metrics.",
+    "tech": "Python, Pandas, Scikit-Learn, Matplotlib",
     "image": "assets/projects/profile.jpg",
-    "github": "https://github.com/username/project",
-    "demo": "https://username.github.io/project"
+    "github": "https://github.com/bishwaghimire/titanic-survival-prediction",
+    "demo": "#"
   },
   {
     "id": "fake-news",
-    "title": "📰 Fake News Detection (NLP)",
-    "short": "Detects fake news headlines.",
-    "description": "TF-IDF based NLP classifier using Logistic Regression to detect fake news headlines with text preprocessing techniques.",
-    "tech": "Python, NLP, scikit-learn",
+    "title": "Fake News Detection using NLP",
+    "short": "Text Classification with TF-IDF and Logistic Regression",
+    "description": "An NLP-based text classification system designed to detect fake news headlines. The project applies text preprocessing techniques, TF-IDF vectorization, and Logistic Regression to classify news articles with performance evaluation and model comparison.",
+    "tech": "Python, NLP, Scikit-Learn, TF-IDF",
     "image": "assets/projects/profile.jpg",
-    "github": "https://github.com/username/project",
-    "demo": "https://username.github.io/project"
+    "github": "https://github.com/bishwaghimire/fake-news-detection",
+    "demo": "#"
   },
   {
     "id": "iris",
-    "title": "🌸 Iris Flower Classifier",
-    "short": "Predicts Iris species.",
-    "description": "A classic ML project that predicts Iris flower species using four features with Logistic Regression.",
-    "tech": "Python, scikit-learn",
+    "title": "Iris Species Classification",
+    "short": "Fundamental ML Classification Model",
+    "description": "A classical machine learning project that predicts Iris flower species using four numerical features. The model was implemented using Logistic Regression with proper data visualization, training-validation split, and accuracy evaluation.",
+    "tech": "Python, Scikit-Learn, Pandas",
     "image": "assets/projects/profile.jpg",
-    "github": "https://github.com/username/project",
-    "demo": "https://username.github.io/project"
+    "github": "https://github.com/bishwaghimire/iris-classifier",
+    "demo": "#"
+  },
+  {
+    "id": "ott",
+    "title": "Mini OTT Streaming Platform (Frontend)",
+    "short": "Interactive Movie Streaming UI",
+    "description": "A responsive OTT-style movie streaming frontend built using HTML, CSS, and JavaScript. The project features dynamic movie cards, overlays, trailer previews, and modern UI design principles focused on user experience.",
+    "tech": "HTML, CSS, JavaScript",
+    "image": "assets/projects/profile.jpg",
+    "github": "https://github.com/bishwaghimire/mini-ott-platform",
+    "demo": "#"
   }
 ]
