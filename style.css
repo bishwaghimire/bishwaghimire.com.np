@@ -226,6 +226,18 @@ header {
   letter-spacing: 0.01em;
 }
 
+/* Active nav link */
+.nav-links a.active {
+  color: var(--accent);
+  background: var(--accent-light);
+}
+
+.mobile-menu ul li a.active {
+  color: var(--accent);
+  background: var(--accent-light);
+  border-left-color: var(--accent);
+}
+
 .nav-links a:hover {
   color: var(--accent);
   background: var(--accent-light);
