@@ -483,3 +483,24 @@ function respondTo(input) {
     addMessage('bot', response);
   }, 800);
 }
+
+// Active nav on scroll
+const sections = document.querySelectorAll('section[id], .contact-section[id]');
+const navLinks = document.querySelectorAll('.nav-links a, .mobile-menu ul li a');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${entry.target.id}`) {
+          link.classList.add('active');
+        }
+      });
+    }
+  });
+}, {
+  rootMargin: '-40% 0px -50% 0px'
+});
+
+sections.forEach(section => observer.observe(section));
