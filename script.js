@@ -504,3 +504,52 @@ const observer = new IntersectionObserver((entries) => {
 });
 
 sections.forEach(section => observer.observe(section));
+
+document.addEventListener("DOMContentLoaded", function () {
+
+const texts = [
+  "AI & Machine Learning Developer",
+  "Deep Learning Engineer",
+  "CSIT Student at Tribhuvan University"
+];
+
+let i = 0;
+let j = 0;
+let isDeleting = false;
+
+const typingSpeed = 120;
+const deletingSpeed = 60;
+const pauseTime = 2500;
+
+function type() {
+
+  const element = document.getElementById("typed-role");
+  const current = texts[i];
+
+  element.textContent = current.substring(0, j);
+
+  if (!isDeleting) {
+    j++;
+
+    if (j > current.length) {
+      isDeleting = true;
+      setTimeout(type, pauseTime);
+      return;
+    }
+
+  } else {
+
+    j--;
+
+    if (j === 0) {
+      isDeleting = false;
+      i = (i + 1) % texts.length;
+    }
+
+  }
+
+  setTimeout(type, isDeleting ? deletingSpeed : typingSpeed);
+}
+
+setTimeout(type, 800);
+})

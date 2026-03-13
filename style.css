@@ -540,6 +540,18 @@ body.dark-mode #darkModeToggle .toggle-icon { transform:rotate(180deg); }
   animation-delay: 0.35s;
 }
 
+/* blinking typer */
+
+#typed-role::after {
+  content: '|';
+  color: var(--accent);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
 /* ── Resume Button ── */
 .resume-btn {
   display: inline-flex;
