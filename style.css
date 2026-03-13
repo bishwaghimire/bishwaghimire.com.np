@@ -208,6 +208,17 @@ header {
   font-weight: 700;
   color: var(--primary);
   letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;   /* force row */
+  gap: 10px;
+}
+
+.logo-mark-img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .nav-links {
@@ -511,7 +522,9 @@ body.dark-mode #darkModeToggle .toggle-icon { transform:rotate(180deg); }
 }
 
 .h1-subtitle {
-  display: block;
+  /* display: block; */
+  display: inline-block;
+  min-width: 320px;
   font-size: 1.1rem;
   font-weight: 400;
   color: var(--text-muted);
@@ -550,6 +563,14 @@ body.dark-mode #darkModeToggle .toggle-icon { transform:rotate(180deg); }
 
 @keyframes blink {
   50% { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  .h1-subtitle {
+    min-width: unset;
+    display: block;
+    margin-top: 0.3rem;
+  }
 }
 
 /* ── Resume Button ── */
