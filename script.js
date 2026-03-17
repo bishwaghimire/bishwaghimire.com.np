@@ -91,7 +91,7 @@ document.addEventListener('keydown', e => {
       closeModalFn();
     }
     // Close chatbot if open
-    if (chatbot.style.display === 'flex') {
+    if (chatbot.classList.contains('chat-visible')) {
       closeChatFn();
     }
   }
@@ -387,28 +387,6 @@ const faq = [
   }
 ];
 
-/* ── Chatbot open/close helpers ───────────────────────────────── */
-function openChatFn() {
-  chatbot.style.display = 'flex';
-  document.body.classList.add('chat-open');
-  // FIX #5: Update aria-expanded so screen readers know the chatbot is open
-  chatToggle.setAttribute('aria-expanded', 'true');
-
-  // FIX #11: Greet every time the chat is opened in this session,
-  // not just the very first time the page loads.
-  if (!sessionGreeted) {
-    addMessage('bot', "Hi there! 👋 I'm Bishwa Bot. Ask me about AI, projects, skills, or collaborations.");
-    sessionGreeted = true;
-  }
-  userInput.focus();
-}
-
-function closeChatFn() {
-  chatbot.style.display = 'none';
-  document.body.classList.remove('chat-open');
-  // FIX #5: Update aria-expanded so screen readers know the chatbot is closed
-  chatToggle.setAttribute('aria-expanded', 'false');
-}
 
 chatToggle.addEventListener('click', openChatFn);
 closeChat.addEventListener('click', closeChatFn);
@@ -428,22 +406,80 @@ function sendMessage() {
   respondTo(msg);
 }
 
-// Safe: uses textContent only — no XSS risk (FIX #7 / #8 confirmed ✅)
+
+/* ================================================================
+   CHATBOT JS — Replace these functions in script.js
+   (keep everything else like faq, PROFILE, sendMessage, respondTo)
+================================================================ */
+
+/* ── Helper: current time ── */
+function getCurrentTime() {
+  const now = new Date();
+  let h = now.getHours();
+  const m = String(now.getMinutes()).padStart(2, '0');
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  return `${h}:${m} ${ampm}`;
+}
+
+/* ── Replace openChatFn() ── */
+function openChatFn() {
+  chatbot.classList.add('chat-visible');
+  chatToggle.classList.add('chat-is-open');
+  chatToggle.setAttribute('aria-expanded', 'true');
+  document.body.classList.add('chat-open');
+
+  if (!sessionGreeted) {
+    addMessage('bot', "Hi there! 👋 I'm Bishwa Bot. Ask me about AI, projects, skills, or collaborations.");
+    sessionGreeted = true;
+  }
+  userInput.focus();
+}
+
+/* ── Replace closeChatFn() ── */
+function closeChatFn() {
+  chatbot.classList.remove('chat-visible');
+  chatToggle.classList.remove('chat-is-open');
+  chatToggle.setAttribute('aria-expanded', 'false');
+  document.body.classList.remove('chat-open');
+}
+
+/* ── Replace addMessage() ── */
 function addMessage(sender, text) {
-  const msgDiv = document.createElement('div');
-  msgDiv.className   = `chat-message ${sender}`;
-  msgDiv.textContent = text;
-  chatBody.appendChild(msgDiv);
+  const wrapper = document.createElement('div');
+  wrapper.className = `chat-message ${sender}`;
+
+  const bubble = document.createElement('div');
+  bubble.className = 'chat-bubble';
+  bubble.textContent = text;
+
+  const time = document.createElement('span');
+  time.className = 'chat-time';
+  time.textContent = getCurrentTime();
+
+  wrapper.appendChild(bubble);
+  wrapper.appendChild(time);
+  chatBody.appendChild(wrapper);
   chatBody.scrollTop = chatBody.scrollHeight;
 }
 
-/* ── Typing indicator ─────────────────────────────────────────── */
+/* ── Replace showTyping() ── */
 function showTyping() {
-  const typingDiv = document.createElement('div');
-  typingDiv.className   = 'chat-message bot typing';
-  typingDiv.id          = 'typing-indicator';
-  typingDiv.textContent = 'Bishwa Bot is typing...';
-  chatBody.appendChild(typingDiv);
+  const wrapper = document.createElement('div');
+  wrapper.className = 'chat-message bot typing';
+  wrapper.id = 'typing-indicator';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'chat-bubble';
+
+  for (let i = 0; i < 3; i++) {
+    const dot = document.createElement('span');
+    dot.className = 'typing-dot';
+    bubble.appendChild(dot);
+  }
+
+  wrapper.appendChild(bubble);
+  chatBody.appendChild(wrapper);
   chatBody.scrollTop = chatBody.scrollHeight;
 }
 
@@ -504,6 +540,9 @@ const observer = new IntersectionObserver((entries) => {
 });
 
 sections.forEach(section => observer.observe(section));
+
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
 
