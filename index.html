@@ -228,12 +228,9 @@
           My work includes CNN-based Nepali Handwritten Character Recognition
           with character-wise accuracy analysis.
         </p>
-        <a href="assets/Bishwa-Prasad-Ghimire-resume.pdf" 
-          download 
-          class="resume-btn"
-          aria-label="Download Bishwa Ghimire's Resume">
-          📄 Download Resume
-        </a>
+        <button id="resumeViewBtn" class="resume-btn" aria-label="View Bishwa Ghimire's Resume">
+          📄 View Resume
+        </button>
         <div class="cta-buttons">
           <a href="#projects" class="btn primary-btn">
             <span>View AI Projects</span>
@@ -338,6 +335,22 @@
         <a id="modalGithub" href="#" target="_blank" rel="noopener noreferrer">🐙 GitHub</a>
         <a id="modalDemo"   href="#" target="_blank" rel="noopener noreferrer">🚀 Live Demo</a>
       </div>
+    </div>
+  </div>
+
+  <!-- RESUME MODAL -->
+  <div class="resume-modal" id="resumeModal" role="dialog" aria-modal="true" aria-label="Resume viewer">
+    <div class="resume-modal-content">
+      <div class="resume-modal-header">
+        <span class="resume-modal-title">Bishwa Ghimire — Resume</span>
+        <div class="resume-modal-actions">
+          <a href="assets/Bishwa-Prasad-Ghimire-resume.pdf" download class="resume-download-btn" aria-label="Download Resume">
+            ⬇ Download
+          </a>
+          <button class="resume-close-btn" id="closeResumeModal" aria-label="Close resume viewer">&times;</button>
+        </div>
+      </div>
+      <iframe src="" id="resumeFrame" title="Resume PDF viewer" frameborder="0"></iframe>
     </div>
   </div>
 

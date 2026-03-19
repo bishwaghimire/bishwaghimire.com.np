@@ -94,6 +94,10 @@ document.addEventListener('keydown', e => {
     if (chatbot.classList.contains('chat-visible')) {
       closeChatFn();
     }
+    // Add after the project modal check:
+    if (resumeModal.style.display === 'flex') {
+      closeResumeFn();
+    }
   }
 });
 
@@ -107,30 +111,42 @@ window.addEventListener('scroll', () => {
   scrollBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
 });
 
-// ─── Resume Button Auto Enable/Disable ───────────────────────
-const resumeBtn = document.querySelector('.resume-btn');
+/* ── Resume Modal ── */
+const resumeViewBtn   = $id('resumeViewBtn');
+const resumeModal     = $id('resumeModal');
+const closeResumeBtn  = $id('closeResumeModal');
+const resumeFrame     = $id('resumeFrame');
+const RESUME_PATH     = 'assets/Bishwa-Prasad-Ghimire-resume.pdf';
 
-fetch('assets/Bishwa-Prasad-Ghimire-resume.pdf', { method: 'HEAD' })
+fetch(RESUME_PATH, { method: 'HEAD' })
   .then(res => {
     if (!res.ok) {
-      resumeBtn.classList.add('disabled');
-      resumeBtn.removeAttribute('download');
-      resumeBtn.setAttribute('aria-disabled', 'true');
-      resumeBtn.title = 'Resume not available yet';
+      resumeViewBtn.disabled = true;
+      resumeViewBtn.title = 'Resume not available yet';
     }
   })
   .catch(() => {
-    resumeBtn.classList.add('disabled');
-    resumeBtn.removeAttribute('download');
-    resumeBtn.setAttribute('aria-disabled', 'true');
-    resumeBtn.title = 'Resume not available yet';
+    resumeViewBtn.disabled = true;
+    resumeViewBtn.title = 'Resume not available yet';
   });
 
+resumeViewBtn.addEventListener('click', () => {
+  if (resumeViewBtn.disabled) return;
+  // resumeFrame.src = RESUME_PATH + '#toolbar=0&zoom=100';
+  resumeFrame.src = RESUME_PATH + '#toolbar=0&zoom=80';
+  resumeModal.style.display = 'flex';
+  document.body.classList.add('modal-open');
+});
 
-  resumeBtn.addEventListener('click', e => {
-  if (resumeBtn.classList.contains('disabled')) {
-    e.preventDefault();
-  }
+function closeResumeFn() {
+  resumeModal.style.display = 'none';
+  resumeFrame.src = '';
+  document.body.classList.remove('modal-open');
+}
+
+closeResumeBtn.addEventListener('click', closeResumeFn);
+resumeModal.addEventListener('click', e => {
+  if (e.target === resumeModal) closeResumeFn();
 });
 
 /* ================================================================
@@ -293,7 +309,7 @@ const PROFILE = {
   role:     'AI & Machine Learning Enthusiast',
   university: 'Tribhuvan University',
   location: 'Nepal',
-  email:    'bishwaghimire4560@gmail.com',
+  email:    'contact@bishwaghimire.com.np',
   timezone: 'GMT+5:45 (Nepal Standard Time)',
   skills:   ['Python', 'JavaScript', 'HTML/CSS', 'Machine Learning',
              'Deep Learning', 'PyTorch', 'Node.js']
