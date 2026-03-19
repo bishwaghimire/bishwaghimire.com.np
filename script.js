@@ -132,8 +132,15 @@ fetch(RESUME_PATH, { method: 'HEAD' })
 
 resumeViewBtn.addEventListener('click', () => {
   if (resumeViewBtn.disabled) return;
-  // resumeFrame.src = RESUME_PATH + '#toolbar=0&zoom=100';
-  resumeFrame.src = RESUME_PATH + '#toolbar=0&zoom=80';
+
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+  if (isMobile) {
+    // window.open(RESUME_PATH, '_blank');
+    window.location.href = RESUME_PATH;
+    return;
+  }
+
+  resumeFrame.src = RESUME_PATH + '#toolbar=0&zoom=100';
   resumeModal.style.display = 'flex';
   document.body.classList.add('modal-open');
 });
