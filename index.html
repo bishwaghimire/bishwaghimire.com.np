@@ -633,16 +633,19 @@
   </div>
   <div class="chat-body" id="chat-body" aria-live="polite"></div>
   <div class="chat-input-area">
-    <input type="text" id="user-input" placeholder="Ask me anything..." aria-label="Type your message" />
-    <button id="send-btn" aria-label="Send message">
-      <!-- Paper plane icon -->
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
+      <input type="text" id="user-input" placeholder="Ask me anything..." aria-label="Type your message" />
+      <button id="mic-btn" class="mic-btn" aria-label="Voice input">
+        <i class="fas fa-microphone"></i>
+      </button>
+      <button id="send-btn" aria-label="Send message">
+        <!-- Paper plane icon -->
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
   </div>
-</div>
 
   <!-- SCROLL TO TOP -->
   <a href="#home" id="scrollTopBtn" aria-label="Scroll back to top">

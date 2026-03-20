@@ -20,7 +20,6 @@ function applyDark(on) {
   localStorage.setItem('darkMode', on ? '1' : '0');
 }
 
-// Restore preference on page load
 applyDark(localStorage.getItem('darkMode') !== '0');
 
 darkBtn.addEventListener('click', () =>
@@ -46,12 +45,10 @@ hamburger.addEventListener('click', e => {
   openMenu(!hamburger.classList.contains('open'));
 });
 
-// Close on mobile link click
 document.querySelectorAll('.mobile-link').forEach(link =>
   link.addEventListener('click', () => openMenu(false))
 );
 
-// Close when clicking outside the header
 document.addEventListener('click', e => {
   if (!e.target.closest('header')) openMenu(false);
 });
@@ -59,8 +56,6 @@ document.addEventListener('click', e => {
 
 /* ================================================================
    SMOOTH SCROLL
-   FIX #3: Exclude exact href="#" so fallback modal links don't
-   scroll the page to the top when accidentally triggered.
 ================================================================ */
 document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
@@ -77,33 +72,19 @@ document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
 
 /* ================================================================
    UNIFIED ESCAPE KEY HANDLER
-   FIX #4: Single keydown listener handles all Escape actions so
-   multiple competing listeners don't pile up on document.
 ================================================================ */
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
-    // Close hamburger menu if open
-    if (hamburger.classList.contains('open')) {
-      openMenu(false);
-    }
-    // Close project modal if open
-    if (modal.style.display === 'flex') {
-      closeModalFn();
-    }
-    // Close chatbot if open
-    if (chatbot.classList.contains('chat-visible')) {
-      closeChatFn();
-    }
-    // Add after the project modal check:
-    if (resumeModal.style.display === 'flex') {
-      closeResumeFn();
-    }
+    if (hamburger.classList.contains('open'))        openMenu(false);
+    if (modal.style.display === 'flex')              closeModalFn();
+    if (chatbot.classList.contains('chat-visible'))  closeChatFn();
+    if (resumeModal.style.display === 'flex')        closeResumeFn();
   }
 });
 
 
 /* ================================================================
-   SCROLL TO TOP BUTTON
+   SCROLL TO TOP
 ================================================================ */
 const scrollBtn = $id('scrollTopBtn');
 
@@ -111,6 +92,10 @@ window.addEventListener('scroll', () => {
   scrollBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
 });
 
+
+/* ================================================================
+   RESUME MODAL
+================================================================ */
 const resumeViewBtn        = $id('resumeViewBtn');
 const resumeModal          = $id('resumeModal');
 const closeResumeBtn       = $id('closeResumeModal');
@@ -165,8 +150,6 @@ resumeModal.addEventListener('click', e => {
   if (e.target === resumeModal) closeResumeFn();
 });
 
-
-// PDF.js setup
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
@@ -181,12 +164,7 @@ function renderResumePDF() {
       canvas.height = viewport.height;
       canvas.style.width  = '100%';
       canvas.style.height = 'auto';
-
-      page.render({
-        canvasContext: canvas.getContext('2d'),
-        viewport
-      });
-
+      page.render({ canvasContext: canvas.getContext('2d'), viewport });
       canvas.dataset.rendered = '1';
     });
   });
@@ -194,21 +172,19 @@ function renderResumePDF() {
 
 
 /* ================================================================
-   PROJECTS — load from JSON and render cards
+   PROJECTS
 ================================================================ */
-const projectList    = $id('projectList');
-const modal          = $id('projectModal');
-const modalTitle     = $id('modalTitle');
-const modalDesc      = $id('modalDescription');
-const modalTech      = $id('modalTech');
-const modalGithub    = $id('modalGithub');
-const modalDemo      = $id('modalDemo');
-const closeModalBtn  = $id('closeModal');
+const projectList   = $id('projectList');
+const modal         = $id('projectModal');
+const modalTitle    = $id('modalTitle');
+const modalDesc     = $id('modalDescription');
+const modalTech     = $id('modalTech');
+const modalGithub   = $id('modalGithub');
+const modalDemo     = $id('modalDemo');
+const closeModalBtn = $id('closeModal');
 
-// Track which card triggered the modal so we can restore focus on close (FIX #6)
 let lastFocusedCard = null;
 
-// FIX #9: Show a user-visible error message if the fetch fails
 fetch('assets/projects.json')
   .then(res => res.json())
   .then(data => renderProjects(data))
@@ -218,9 +194,6 @@ fetch('assets/projects.json')
       '<p style="text-align:center;opacity:0.7;">Could not load projects. Please try again later.</p>';
   });
 
-
-// FIX #10: Use createElement + textContent/setAttribute instead of innerHTML
-// to eliminate any XSS risk from data in projects.json
 function renderProjects(projects) {
   projectList.innerHTML = '';
 
@@ -248,11 +221,7 @@ function renderProjects(projects) {
 
     card.append(img, title, desc, tech);
 
-    // Open modal on click or Enter/Space for keyboard users
-    card.addEventListener('click', () => {
-      lastFocusedCard = card;
-      openModal(project);
-    });
+    card.addEventListener('click', () => { lastFocusedCard = card; openModal(project); });
     card.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -265,14 +234,11 @@ function renderProjects(projects) {
   });
 }
 
-
 function openModal(project) {
-  // Populate text content safely
   modalTitle.textContent = project.title;
   modalDesc.textContent  = project.description;
   modalTech.textContent  = 'Tech Stack: ' + project.tech;
 
-  // Add or update modal image
   let img = modal.querySelector('.modal-img');
   if (!img) {
     img = document.createElement('img');
@@ -282,7 +248,6 @@ function openModal(project) {
   img.src = project.image;
   img.alt = project.title;
 
-  // GitHub link
   if (project.github) {
     modalGithub.style.display = 'inline-block';
     modalGithub.href = project.github;
@@ -291,7 +256,6 @@ function openModal(project) {
     modalGithub.href = '#';
   }
 
-  // Demo link
   if (project.demo) {
     modalDemo.style.display = 'inline-block';
     modalDemo.href = project.demo;
@@ -300,38 +264,75 @@ function openModal(project) {
     modalDemo.href = '#';
   }
 
-  // Show modal and lock body scroll
   modal.style.display = 'flex';
   document.body.classList.add('modal-open');
-
-  // FIX #6: Move keyboard focus into the modal so keyboard/screen-reader
-  // users aren't left tabbing through content hidden behind the overlay.
-  // modalTitle has tabindex="-1" set in HTML (add it if not already there).
   modalTitle.setAttribute('tabindex', '-1');
   modalTitle.focus();
 }
 
-
-// Centralised close function so all triggers call the same path
 function closeModalFn() {
   modal.style.display = 'none';
   document.body.classList.remove('modal-open');
-
-  // FIX #6: Restore focus to the card that opened the modal
-  if (lastFocusedCard) {
-    lastFocusedCard.focus();
-    lastFocusedCard = null;
-  }
+  if (lastFocusedCard) { lastFocusedCard.focus(); lastFocusedCard = null; }
 }
 
-// Close via ✕ button
 closeModalBtn.addEventListener('click', closeModalFn);
+modal.addEventListener('click', e => { if (e.target === modal) closeModalFn(); });
 
-// Close via clicking the dark overlay
-modal.addEventListener('click', e => {
-  if (e.target === modal) closeModalFn();
+
+/* ================================================================
+   ACTIVE NAV ON SCROLL
+================================================================ */
+const sections = document.querySelectorAll('section[id], .contact-section[id]');
+const navLinks = document.querySelectorAll('.nav-links a, .mobile-menu ul li a');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${entry.target.id}`) {
+          link.classList.add('active');
+        }
+      });
+    }
+  });
+}, { rootMargin: '-40% 0px -50% 0px' });
+
+sections.forEach(section => observer.observe(section));
+
+
+/* ================================================================
+   TYPEWRITER
+================================================================ */
+document.addEventListener('DOMContentLoaded', function () {
+  const texts = [
+    'AI & Machine Learning Developer',
+    'Deep Learning Engineer',
+    'CSIT Student at Tribhuvan University'
+  ];
+
+  let i = 0, j = 0, isDeleting = false;
+  const typingSpeed = 120, deletingSpeed = 60, pauseTime = 2500;
+
+  function type() {
+    const element = document.getElementById('typed-role');
+    const current = texts[i];
+    element.textContent = current.substring(0, j);
+
+    if (!isDeleting) {
+      j++;
+      if (j > current.length) { isDeleting = true; setTimeout(type, pauseTime); return; }
+    } else {
+      j--;
+      if (j === 0) { isDeleting = false; i = (i + 1) % texts.length; }
+    }
+
+    setTimeout(type, isDeleting ? deletingSpeed : typingSpeed);
+  }
+
+  setTimeout(type, 800);
 });
-// NOTE: Escape key is handled by the unified handler above (FIX #1 + #4)
 
 
 /* ================================================================
@@ -344,119 +345,230 @@ const chatBody   = $id('chat-body');
 const userInput  = $id('user-input');
 const sendBtn    = $id('send-btn');
 
-// FIX #11: Track per-session greeting so re-opening shows greeting again
 let sessionGreeted = false;
 
 /* ── Profile data ─────────────────────────────────────────────── */
 const PROFILE = {
-  name:     'Bishwa Ghimire',
-  role:     'AI & Machine Learning Enthusiast',
-  university: 'Tribhuvan University',
-  location: 'Nepal',
-  email:    'contact@bishwaghimire.com.np',
-  timezone: 'GMT+5:45 (Nepal Standard Time)',
-  skills:   ['Python', 'JavaScript', 'HTML/CSS', 'Machine Learning',
-             'Deep Learning', 'PyTorch', 'Node.js']
+  name:       'Bishwa Ghimire',
+  role:       'AI & Machine Learning Developer',
+  university: 'Tribhuvan University (Butwal Multiple Campus)',
+  degree:     'BSc. CSIT',
+  location:   'Butwal, Nepal',
+  email:      'contact@bishwaghimire.com.np',
+  phone:      '+977 9746380827',
+  timezone:   'GMT+5:45 (Nepal Standard Time)',
+  github:     'https://github.com/bishwaghimire',
+  linkedin:   'https://www.linkedin.com/in/bishwa-ghimire-66bb5939b',
+  skills: {
+    ml:   ['Scikit-Learn', 'Model Evaluation', 'Feature Engineering', 'Data Preprocessing'],
+    dl:   ['PyTorch', 'CNNs', 'Neural Network Training', 'Optimization'],
+    prog: ['Python', 'JavaScript'],
+    data: ['Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'OpenCV'],
+    web:  ['HTML', 'CSS', 'JavaScript', 'Node.js'],
+    tools:['Git']
+  },
+  projects: [
+    {
+      name:   'Nepali Handwritten Character Recognition (CNN)',
+      tech:   'Python, PyTorch, NumPy, Matplotlib',
+      desc:   'Deep learning research project recognizing 59 classes of Nepali handwritten characters using CNNs with character-wise accuracy analysis (~98.92% accuracy).',
+      github: 'https://github.com/bishwaghimire/nepali-handwritten-recognition'
+    },
+    {
+      name:   'Titanic Survival Prediction',
+      tech:   'Python, Pandas, Scikit-Learn, Matplotlib',
+      desc:   'Supervised ML classification model on the Titanic dataset with EDA, feature engineering, and model evaluation.',
+      github: 'https://github.com/bishwaghimire/titanic-survival-prediction'
+    },
+    {
+      name:   'Fake News Detection using NLP',
+      tech:   'Python, NLP, Scikit-Learn, TF-IDF',
+      desc:   'Text classification system using TF-IDF vectorization and Logistic Regression to detect fake news.',
+      github: 'https://github.com/bishwaghimire/fake-news-detection'
+    },
+    {
+      name:   'Iris Species Classification',
+      tech:   'Python, Scikit-Learn, Pandas',
+      desc:   'Classical ML model predicting Iris species from numerical features with visualization and accuracy evaluation.',
+      github: 'https://github.com/bishwaghimire/iris-classifier'
+    },
+    {
+      name:   'Mini OTT Streaming Platform (Frontend)',
+      tech:   'HTML, CSS, JavaScript',
+      desc:   'Responsive OTT-style streaming UI with dynamic movie cards, overlays, and trailer previews.',
+      github: 'https://github.com/bishwaghimire/mini-ott-platform'
+    }
+  ],
+  experience: [
+    {
+      year:  '2024 – Present',
+      title: 'BSc. CSIT',
+      org:   'Butwal Multiple Campus – Tribhuvan University',
+      desc:  'Pursuing Computer Science with focus on AI, ML, and Data Science.'
+    },
+    {
+      year:  '2025',
+      title: 'Nepali Handwritten Character Recognition Research',
+      org:   'Research Project',
+      desc:  'Developed a CNN model for recognizing Nepali handwritten characters with character-wise accuracy analysis.'
+    },
+    {
+      year:  '2025',
+      title: 'ML & Deep Learning Projects',
+      org:   'Personal Research & Implementation',
+      desc:  'Designed and implemented ML models using Scikit-Learn and deep learning models using PyTorch.'
+    },
+    {
+      year:  '2024',
+      title: 'Web Development Workshop',
+      org:   'Synthbit Technologies',
+      desc:  'Completed frontend web development workshop covering HTML, CSS, JavaScript, and responsive design.'
+    }
+  ],
+  achievements: [
+    'CNN-based Nepali Handwritten Character Recognition (~98.92% accuracy)',
+    'Nepali Text Sentiment Analysis project',
+    'Web Development Workshop — Synthbit Technologies (2024)',
+    'Published Android apps under Bishwa Studio on Google Play Store',
+    'Active contributor to Nepali-language AI research'
+  ],
+  apps: ['Heart Touching Quotes', 'NepaliSayari', 'Captions', 'FlirtFusion']
 };
 
 /* ── FAQ intents ──────────────────────────────────────────────── */
 const faq = [
   {
-    keywords: ['hello', 'hi', 'hey'],
+    keywords: ['hello', 'hi', 'hey', 'sup', 'yo', 'hola', 'namaste'],
     answer: [
-      "Hello 👋 I'm Bishwa Bot. Ask me about AI, projects, or skills.",
-      "Hi there! 🤖 Ready to explore some intelligent systems?",
-      "Hey! Let's talk about AI and innovation."
+      "Hello. I'm Bishwa Bot. Ask me about Bishwa's research, projects, skills, or contact details.",
+      "Hi. I can tell you about Bishwa's AI work, tech stack, or how to reach him.",
+      "Hello. What would you like to know about Bishwa's portfolio?"
     ]
   },
   {
-    keywords: ['name', 'who are you'],
-    answer: `I'm Bishwa Bot 🤖 representing ${PROFILE.name}.`
+    keywords: ['who', 'about', 'bishwa', 'introduce', 'yourself', 'tell me'],
+    answer: `${PROFILE.name} is an ${PROFILE.role} pursuing ${PROFILE.degree} at ${PROFILE.university}. His work is focused on Deep Learning, Computer Vision, and Nepali NLP — with a primary research project on CNN-based Nepali Handwritten Character Recognition.`
   },
   {
-    keywords: ['about', 'background'],
-    answer: `${PROFILE.name} is an ${PROFILE.role} studying at ${PROFILE.university}.`
+    keywords: ['education', 'university', 'college', 'degree', 'study', 'student', 'csit', 'tribhuvan'],
+    answer: `Bishwa is pursuing ${PROFILE.degree} at ${PROFILE.university}. Core focus areas: Artificial Intelligence, Machine Learning, and Data Science.`
   },
   {
-    keywords: ['education', 'university', 'degree'],
-    answer: `Currently pursuing Computer Science at ${PROFILE.university}.`
+    keywords: ['skills', 'tech stack', 'technologies', 'tools', 'languages', 'expertise', 'know'],
+    answer: `Bishwa's technical stack:\n- ML: ${PROFILE.skills.ml.join(', ')}\n- Deep Learning: ${PROFILE.skills.dl.join(', ')}\n- Programming: ${PROFILE.skills.prog.join(', ')}\n- Data: ${PROFILE.skills.data.join(', ')}\n- Web: ${PROFILE.skills.web.join(', ')}`
   },
   {
-    keywords: ['location', 'based'],
-    answer: `Based in ${PROFILE.location}.`
+    keywords: ['python'],
+    answer: "Python is Bishwa's primary language — used across ML pipelines (Scikit-Learn, PyTorch), data analysis (Pandas, NumPy), and scripting."
   },
   {
-    keywords: ['timezone'],
-    answer: `Timezone: ${PROFILE.timezone}`
+    keywords: ['pytorch', 'deep learning', 'neural network', 'cnn', 'convolutional'],
+    answer: 'Bishwa builds CNN architectures using PyTorch. His primary research — Nepali Handwritten Character Recognition — achieved ~98.92% accuracy across 59 character classes.'
   },
   {
-    keywords: ['skills', 'tech stack', 'technologies'],
-    answer: `Core stack includes: ${PROFILE.skills.join(', ')}.`
+    keywords: ['machine learning', 'ml', 'scikit', 'sklearn', 'model'],
+    answer: 'Bishwa has practical ML experience in feature engineering, model training, evaluation metrics, and pipelines using Scikit-Learn. Projects include Titanic survival prediction and Iris classification.'
   },
   {
-    keywords: ['machine learning', 'ml'],
-    answer: 'Experienced in model building, data preprocessing, and evaluation pipelines.'
+    keywords: ['nlp', 'natural language', 'text', 'fake news', 'sentiment', 'tfidf'],
+    answer: 'NLP projects include Fake News Detection (TF-IDF and Logistic Regression) and a Nepali Text Sentiment Analysis system. Nepali-language NLP is a research niche Bishwa actively works in.'
   },
   {
-    keywords: ['deep learning', 'neural network', 'cnn'],
-    answer: 'Works with neural networks and CNN architectures using PyTorch.'
+    keywords: ['ai', 'artificial intelligence', 'computer vision', 'opencv'],
+    answer: "Bishwa's AI focus is on building systems that learn from data, with primary research in Computer Vision for Nepali script recognition using CNNs."
   },
   {
-    keywords: ['ai', 'artificial intelligence'],
-    answer: 'Focused on building intelligent systems that learn and adapt.'
+    keywords: ['nepali', 'handwritten', 'character', 'recognition', 'ocr', 'devanagari'],
+    answer: `Flagship research: CNN-based Nepali Handwritten Character Recognition.\n- 59 character classes\n- ~98.92% accuracy\n- Framework: PyTorch\n- Includes detailed character-wise accuracy analysis\n- GitHub: ${PROFILE.projects[0].github}`
   },
   {
-    keywords: ['projects', 'portfolio'],
-    answer: 'You can explore featured AI and full-stack projects in the Projects section above.'
+    keywords: ['projects', 'portfolio', 'built', 'work', 'applications', 'show'],
+    answer: `${PROFILE.projects.length} featured projects:\n\n${PROFILE.projects.map((p, i) => `${i + 1}. ${p.name}\n   ${p.tech}`).join('\n\n')}\n\nSee the AI Projects section for full details.`
   },
   {
-    keywords: ['github', 'repository'],
-    answer: 'All repositories are available on the linked GitHub profile.'
+    keywords: ['titanic', 'survival', 'classification', 'logistic'],
+    answer: `Titanic Survival Prediction: supervised ML classification with EDA, feature engineering, and Logistic Regression.\nStack: ${PROFILE.projects[1].tech}\nGitHub: ${PROFILE.projects[1].github}`
   },
   {
-    keywords: ['blog'],
-    answer: 'Blogs are coming soon! Stay tuned 👨‍💻.'
+    keywords: ['ott', 'streaming', 'movie', 'frontend', 'web project'],
+    answer: `Mini OTT Streaming Platform: responsive streaming UI with dynamic movie cards and trailer previews.\nStack: ${PROFILE.projects[4].tech}\nGitHub: ${PROFILE.projects[4].github}`
   },
   {
-    keywords: ['experience', 'background experience'],
-    answer: 'Experience includes AI projects, automation systems, and full-stack web development.'
+    keywords: ['android', 'app', 'play store', 'bishwa studio', 'bishwa labs', 'mobile'],
+    answer: `Bishwa independently develops Android apps under Bishwa Studio / Bishwa Labs, published on the Google Play Store. Apps: ${PROFILE.apps.join(', ')}.`
   },
   {
-    keywords: ['hire', 'availability', 'internship'],
-    answer: 'Open to AI internships, freelance work, and collaboration opportunities.'
+    keywords: ['experience', 'background', 'journey', 'timeline', 'career', 'internship', 'work'],
+    answer: `Timeline:\n\n${PROFILE.experience.map(e => `${e.year}\n${e.title} — ${e.org}`).join('\n\n')}\n\nSee the Experience and Education section for details.`
   },
   {
-    keywords: ['contact', 'email', 'reach'],
-    answer: `You can reach him via email: ${PROFILE.email}`
+    keywords: ['achievement', 'accomplishment', 'award', 'certification', 'cert'],
+    answer: `Notable achievements:\n${PROFILE.achievements.map(a => `- ${a}`).join('\n')}`
   },
   {
-    keywords: ['resume', 'cv'],
-    answer: 'Resume is available at the top of the homepage.'
+    keywords: ['github', 'repository', 'repo', 'code', 'source'],
+    answer: `All code is on GitHub: ${PROFILE.github}`
   },
   {
-    keywords: ['goal', 'future'],
-    answer: 'Long-term vision: Contribute to next-generation intelligent AI systems.'
+    keywords: ['linkedin', 'professional', 'profile', 'network'],
+    answer: `LinkedIn: ${PROFILE.linkedin}`
   },
   {
-    keywords: ['sleep', 'night owl'],
-    answer: "⚡ Call him when others are wasting time sleeping — he'll be training models and chasing the future of AI."
+    keywords: ['contact', 'email', 'reach', 'message', 'connect', 'hire', 'collaborate'],
+    answer: `Contact details:\nEmail: ${PROFILE.email}\nPhone: ${PROFILE.phone}\nLocation: ${PROFILE.location}\n\nOr use the Contact section to send a message directly.`
   },
   {
-    keywords: ['motivation', 'discipline'],
-    answer: 'Consistency beats motivation. Structured learning builds mastery.'
+    keywords: ['resume', 'cv', 'download', 'pdf'],
+    answer: 'Resume is available via the View Resume button at the top of the page.'
+  },
+  {
+    keywords: ['location', 'based', 'where', 'nepal', 'butwal'],
+    answer: `Based in ${PROFILE.location} (${PROFILE.timezone}).`
+  },
+  {
+    keywords: ['available', 'availability', 'opportunity', 'freelance', 'open to'],
+    answer: 'Bishwa is open to AI/ML internships, research collaborations, and freelance work. Reach out via the Contact section or directly by email.'
+  },
+  {
+    keywords: ['goal', 'future', 'vision', 'ambition', 'plan'],
+    answer: 'Long-term goal: contribute to next-generation AI systems with a focus on low-resource language NLP (Nepali) and Computer Vision research.'
+  },
+  {
+    keywords: ['research', 'paper', 'publication', 'study'],
+    answer: 'Research focus: CNN-based Nepali Handwritten Character Recognition — character-wise accuracy analysis across 58-59 classes, model optimization, and generalization to real-world handwriting variability.'
+  },
+  {
+    keywords: ['blog', 'article', 'post', 'write'],
+    answer: 'Blog posts are coming. Topics will cover AI, Deep Learning, and Nepali NLP.'
+  },
+  {
+    keywords: ['fun', 'hobby', 'interest', 'passion', 'outside'],
+    answer: 'Outside formal work: training models, reading current AI research, and building independent projects. Consistency is the work.'
+  },
+  {
+    keywords: ['thanks', 'thank', 'okay', 'ok', 'cool', 'got it', 'nice', 'awesome', 'great'],
+    answer: [
+      "Sure. Anything else you want to know?",
+      "No problem. Ask about projects, skills, or contact info.",
+      "Glad that helped. Feel free to ask anything else."
+    ]
   }
 ];
 
 
+/* ================================================================
+   CHATBOT LOGIC
+================================================================ */
 chatToggle.addEventListener('click', openChatFn);
-closeChat.addEventListener('click', closeChatFn);
-// Escape key for chatbot is handled by the unified handler above (FIX #4)
-
-/* ── Message helpers ──────────────────────────────────────────── */
-sendBtn.addEventListener('click', sendMessage);
-userInput.addEventListener('keydown', e => {
-  if (e.key === 'Enter') sendMessage();
+chatToggle.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    openChatFn();
+  }
 });
+closeChat.addEventListener('click', closeChatFn);
+sendBtn.addEventListener('click', sendMessage);
+userInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
 
 function sendMessage() {
   const msg = userInput.value.trim();
@@ -466,23 +578,15 @@ function sendMessage() {
   respondTo(msg);
 }
 
-
-/* ================================================================
-   CHATBOT JS — Replace these functions in script.js
-   (keep everything else like faq, PROFILE, sendMessage, respondTo)
-================================================================ */
-
-/* ── Helper: current time ── */
 function getCurrentTime() {
-  const now = new Date();
-  let h = now.getHours();
-  const m = String(now.getMinutes()).padStart(2, '0');
+  const now  = new Date();
+  let h      = now.getHours();
+  const m    = String(now.getMinutes()).padStart(2, '0');
   const ampm = h >= 12 ? 'PM' : 'AM';
   h = h % 12 || 12;
   return `${h}:${m} ${ampm}`;
 }
 
-/* ── Replace openChatFn() ── */
 function openChatFn() {
   chatbot.classList.add('chat-visible');
   chatToggle.classList.add('chat-is-open');
@@ -490,13 +594,16 @@ function openChatFn() {
   document.body.classList.add('chat-open');
 
   if (!sessionGreeted) {
-    addMessage('bot', "Hi there! 👋 I'm Bishwa Bot. Ask me about AI, projects, skills, or collaborations.");
+    setTimeout(() => addMessage('bot', "Hello. I'm Bishwa Bot."), 300);
+    setTimeout(() => {
+      addMessage('bot', "Ask me about Bishwa's research, projects, skills, or contact details.");
+      addQuickReplies(['Projects', 'Skills', 'Research', 'Contact']);
+    }, 900);
     sessionGreeted = true;
   }
   userInput.focus();
 }
 
-/* ── Replace closeChatFn() ── */
 function closeChatFn() {
   chatbot.classList.remove('chat-visible');
   chatToggle.classList.remove('chat-is-open');
@@ -504,17 +611,20 @@ function closeChatFn() {
   document.body.classList.remove('chat-open');
 }
 
-/* ── Replace addMessage() ── */
 function addMessage(sender, text) {
   const wrapper = document.createElement('div');
   wrapper.className = `chat-message ${sender}`;
 
   const bubble = document.createElement('div');
   bubble.className = 'chat-bubble';
-  bubble.textContent = text;
+
+  text.split('\n').forEach((line, i, arr) => {
+    bubble.appendChild(document.createTextNode(line));
+    if (i < arr.length - 1) bubble.appendChild(document.createElement('br'));
+  });
 
   const time = document.createElement('span');
-  time.className = 'chat-time';
+  time.className   = 'chat-time';
   time.textContent = getCurrentTime();
 
   wrapper.appendChild(bubble);
@@ -523,11 +633,33 @@ function addMessage(sender, text) {
   chatBody.scrollTop = chatBody.scrollHeight;
 }
 
-/* ── Replace showTyping() ── */
+function addQuickReplies(options) {
+  const existing = chatBody.querySelector('.chat-quick-replies');
+  if (existing) existing.remove();
+
+  const row = document.createElement('div');
+  row.className = 'chat-quick-replies';
+
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className   = 'chat-chip';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => {
+      row.remove();
+      addMessage('user', opt);
+      respondTo(opt);
+    });
+    row.appendChild(btn);
+  });
+
+  chatBody.appendChild(row);
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
 function showTyping() {
   const wrapper = document.createElement('div');
   wrapper.className = 'chat-message bot typing';
-  wrapper.id = 'typing-indicator';
+  wrapper.id        = 'typing-indicator';
 
   const bubble = document.createElement('div');
   bubble.className = 'chat-bubble';
@@ -548,10 +680,9 @@ function removeTyping() {
   if (el) el.remove();
 }
 
-/* ── Smart matching engine ────────────────────────────────────── */
 function respondTo(input) {
   const message = input.toLowerCase().trim();
-  let bestMatch   = null;
+  let bestMatch    = null;
   let highestScore = 0;
 
   for (const entry of faq) {
@@ -559,13 +690,13 @@ function respondTo(input) {
     for (const keyword of entry.keywords) {
       if (message.includes(keyword)) score += keyword.length;
     }
-    if (score > highestScore) {
-      highestScore = score;
-      bestMatch    = entry;
-    }
+    if (score > highestScore) { highestScore = score; bestMatch = entry; }
   }
 
   showTyping();
+
+  const delay = bestMatch && typeof bestMatch.answer === 'string' && bestMatch.answer.includes('\n')
+    ? 1200 : 800;
 
   setTimeout(() => {
     removeTyping();
@@ -574,81 +705,93 @@ function respondTo(input) {
       ? (Array.isArray(bestMatch.answer)
           ? bestMatch.answer[Math.floor(Math.random() * bestMatch.answer.length)]
           : bestMatch.answer)
-      : "I'm not sure about that yet 🤔 Try asking about AI, projects, skills, or contact information.";
+      : "Not sure about that. Try asking about AI projects, research, skills, or contact details.";
 
     addMessage('bot', response);
-  }, 800);
+
+    const chips = getFollowUpChips(bestMatch);
+    if (chips.length) addQuickReplies(chips);
+  }, delay);
 }
 
-// Active nav on scroll
-const sections = document.querySelectorAll('section[id], .contact-section[id]');
-const navLinks = document.querySelectorAll('.nav-links a, .mobile-menu ul li a');
+function getFollowUpChips(matched) {
+  if (!matched) return ['Projects', 'Skills', 'Contact'];
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${entry.target.id}`) {
-          link.classList.add('active');
-        }
-      });
+  const kw = matched.keywords;
+
+  if (kw.includes('projects') || kw.includes('portfolio'))
+    return ['Nepali OCR', 'Fake News NLP', 'Skills'];
+  if (kw.includes('skills') || kw.includes('tech stack'))
+    return ['PyTorch', 'Python', 'Projects'];
+  if (kw.includes('pytorch') || kw.includes('cnn') || kw.includes('nepali'))
+    return ['GitHub', 'Other Projects', 'Contact'];
+  if (kw.includes('contact') || kw.includes('hire'))
+    return ['GitHub', 'LinkedIn', 'Resume'];
+  if (kw.includes('education') || kw.includes('experience'))
+    return ['Skills', 'Projects', 'Contact'];
+  if (kw.includes('github'))
+    return ['Projects', 'LinkedIn', 'Contact'];
+  if (kw.includes('thanks') || kw.includes('okay'))
+    return ['Projects', 'Skills', 'Research'];
+
+  return [];
+}
+
+
+
+/* ================================================================
+   VOICE INPUT — add this block right after:
+   "userInput.addEventListener('keydown', e => { ... });"
+   in the CHATBOT section of script.js
+================================================================ */
+
+/* ── Voice button injection ── */
+(function initVoice() {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) return;
+
+  const micBtn = $id('mic-btn');
+  if (!micBtn) return;
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition       = new SpeechRecognition();
+  recognition.lang        = 'en-US';
+  recognition.continuous  = false;
+  recognition.interimResults = false;
+
+  let isListening = false;
+
+  recognition.onstart = () => {
+    isListening = true;
+    micBtn.classList.add('mic-listening');
+    micBtn.setAttribute('aria-label', 'Stop listening');
+  };
+
+  recognition.onend = () => {
+    isListening = false;
+    micBtn.classList.remove('mic-listening');
+    micBtn.setAttribute('aria-label', 'Voice input');
+    if (userInput.value.trim()) sendMessage();
+  };
+
+  recognition.onresult = e => {
+    userInput.value = e.results[0][0].transcript;
+  };
+
+  recognition.onerror = e => {
+    isListening = false;
+    micBtn.classList.remove('mic-listening');
+    micBtn.setAttribute('aria-label', 'Voice input');
+    if (e.error === 'not-allowed') {
+      addMessage('bot', 'Microphone access was denied. Enable it in your browser settings to use voice input.');
+    }
+  };
+
+  micBtn.addEventListener('click', () => {
+    if (isListening) {
+      recognition.stop();
+    } else {
+      userInput.value = '';
+      try { recognition.start(); } catch (err) { /* already running */ }
     }
   });
-}, {
-  rootMargin: '-40% 0px -50% 0px'
-});
-
-sections.forEach(section => observer.observe(section));
-
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-
-const texts = [
-  "AI & Machine Learning Developer",
-  "Deep Learning Engineer",
-  "CSIT Student at Tribhuvan University"
-];
-
-let i = 0;
-let j = 0;
-let isDeleting = false;
-
-const typingSpeed = 120;
-const deletingSpeed = 60;
-const pauseTime = 2500;
-
-function type() {
-
-  const element = document.getElementById("typed-role");
-  const current = texts[i];
-
-  element.textContent = current.substring(0, j);
-
-  if (!isDeleting) {
-    j++;
-
-    if (j > current.length) {
-      isDeleting = true;
-      setTimeout(type, pauseTime);
-      return;
-    }
-
-  } else {
-
-    j--;
-
-    if (j === 0) {
-      isDeleting = false;
-      i = (i + 1) % texts.length;
-    }
-
-  }
-
-  setTimeout(type, isDeleting ? deletingSpeed : typingSpeed);
-}
-
-setTimeout(type, 800);
-})
+})();
