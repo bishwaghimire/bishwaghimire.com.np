@@ -160,6 +160,7 @@
   />
 
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <style>
     .contact-text .contact-label {
       font-size: 0.72rem;
@@ -339,20 +340,54 @@
   </div>
 
   <!-- RESUME MODAL -->
-  <div class="resume-modal" id="resumeModal" role="dialog" aria-modal="true" aria-label="Resume viewer">
-    <div class="resume-modal-content">
-      <div class="resume-modal-header">
-        <span class="resume-modal-title">Bishwa Ghimire — Resume</span>
-        <div class="resume-modal-actions">
-          <a href="assets/Bishwa-Prasad-Ghimire-resume.pdf" download class="resume-download-btn" aria-label="Download Resume">
-            ⬇ Download
-          </a>
-          <button class="resume-close-btn" id="closeResumeModal" aria-label="Close resume viewer">&times;</button>
-        </div>
+<div class="resume-modal" id="resumeModal" role="dialog" aria-modal="true" aria-label="Resume viewer">
+  <div class="resume-modal-content">
+
+    <!-- DESKTOP HEADER (has Download button) -->
+    <div class="resume-modal-header" id="resumeDesktopHeader">
+      <span class="resume-modal-title">Bishwa Ghimire — Resume</span>
+      <div class="resume-modal-actions">
+        <a href="assets/Bishwa-Prasad-Ghimire-resume.pdf" download class="resume-download-btn" aria-label="Download Resume">
+          ⬇ Download
+        </a>
+        <button class="resume-close-btn" id="closeResumeModal" aria-label="Close resume viewer">&times;</button>
       </div>
-      <iframe src="" id="resumeFrame" title="Resume PDF viewer" frameborder="0"></iframe>
     </div>
+
+    <!-- DESKTOP: iframe -->
+    <iframe src="" id="resumeFrame" title="Resume PDF viewer" frameborder="0"></iframe>
+
+    <!-- MOBILE FALLBACK -->
+    <div class="resume-mobile-fallback" id="resumeMobileFallback">
+
+      <!-- MOBILE HEADER (no Download button) -->
+      <div class="resume-modal-header" id="resumeMobileHeader">
+        <span class="resume-modal-title">Bishwa Ghimire — Resume</span>
+        <button class="resume-close-btn" id="closeResumeModalMobile" aria-label="Close resume viewer">&times;</button>
+      </div>
+
+      <p class="resume-zoom-hint">Tap image to zoom • Pinch to zoom out</p>
+      <!-- <div class="resume-preview-scroll">
+        <img src="assets/resume-preview.png" alt="Resume preview" class="resume-preview-img">
+      </div> -->
+      <div class="resume-preview-scroll">
+        <canvas id="resumeCanvas" class="resume-preview-img"></canvas>
+      </div>
+      <div class="resume-fallback-footer">
+  <div class="resume-fallback-hint">For the best experience with clickable links:</div>
+  <div class="resume-fallback-btns">
+    <a href="assets/Bishwa-Prasad-Ghimire-resume.pdf" target="_blank" rel="noopener noreferrer" class="resume-fallback-btn primary">
+      Open Full PDF
+    </a>
+    <a href="assets/Bishwa-Prasad-Ghimire-resume.pdf" download class="resume-fallback-btn secondary">
+      Download PDF
+    </a>
   </div>
+</div>
+    </div>
+
+  </div>
+</div>
 
   <!-- SKILLS -->
 <section id="skills" class="section skills" aria-labelledby="skills-heading">

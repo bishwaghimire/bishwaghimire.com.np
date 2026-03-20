@@ -111,12 +111,14 @@ window.addEventListener('scroll', () => {
   scrollBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
 });
 
-/* ── Resume Modal ── */
-const resumeViewBtn   = $id('resumeViewBtn');
-const resumeModal     = $id('resumeModal');
-const closeResumeBtn  = $id('closeResumeModal');
-const resumeFrame     = $id('resumeFrame');
-const RESUME_PATH     = 'assets/Bishwa-Prasad-Ghimire-resume.pdf';
+const resumeViewBtn        = $id('resumeViewBtn');
+const resumeModal          = $id('resumeModal');
+const closeResumeBtn       = $id('closeResumeModal');
+const closeResumeBtnMobile = $id('closeResumeModalMobile');
+const resumeFrame          = $id('resumeFrame');
+const resumeMobileFallback = $id('resumeMobileFallback');
+const resumeDesktopHeader  = $id('resumeDesktopHeader');
+const RESUME_PATH          = 'assets/Bishwa-Prasad-Ghimire-resume.pdf';
 
 fetch(RESUME_PATH, { method: 'HEAD' })
   .then(res => {
@@ -134,13 +136,19 @@ resumeViewBtn.addEventListener('click', () => {
   if (resumeViewBtn.disabled) return;
 
   const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+
   if (isMobile) {
-    // window.open(RESUME_PATH, '_blank');
-    window.location.href = RESUME_PATH;
-    return;
+    resumeDesktopHeader.style.display = 'none';
+    resumeFrame.style.display = 'none';
+    resumeMobileFallback.style.display = 'flex';
+    renderResumePDF();
+  } else {
+    resumeDesktopHeader.style.display = 'flex';
+    resumeFrame.src = RESUME_PATH + '#toolbar=0&zoom=80';
+    resumeFrame.style.display = 'block';
+    resumeMobileFallback.style.display = 'none';
   }
 
-  resumeFrame.src = RESUME_PATH + '#toolbar=0&zoom=100';
   resumeModal.style.display = 'flex';
   document.body.classList.add('modal-open');
 });
@@ -152,9 +160,38 @@ function closeResumeFn() {
 }
 
 closeResumeBtn.addEventListener('click', closeResumeFn);
+closeResumeBtnMobile.addEventListener('click', closeResumeFn);
 resumeModal.addEventListener('click', e => {
   if (e.target === resumeModal) closeResumeFn();
 });
+
+
+// PDF.js setup
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+function renderResumePDF() {
+  const canvas = $id('resumeCanvas');
+  if (!canvas || canvas.dataset.rendered === '1') return;
+
+  pdfjsLib.getDocument(RESUME_PATH).promise.then(pdf => {
+    pdf.getPage(1).then(page => {
+      const viewport = page.getViewport({ scale: 2.5 });
+      canvas.width  = viewport.width;
+      canvas.height = viewport.height;
+      canvas.style.width  = '100%';
+      canvas.style.height = 'auto';
+
+      page.render({
+        canvasContext: canvas.getContext('2d'),
+        viewport
+      });
+
+      canvas.dataset.rendered = '1';
+    });
+  });
+}
+
 
 /* ================================================================
    PROJECTS — load from JSON and render cards
