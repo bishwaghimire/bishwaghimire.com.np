@@ -24,7 +24,7 @@
   <link rel="shortcut icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <meta name="apple-mobile-web-app-title" content="Bishwa" />
+  <meta name="apple-mobile-web-app-title" content="Bishwa Ghimire" />
 
   <link rel="preload" as="image" href="/assets/my-profile.jpg" imagesrcset="/assets/my-profile.jpg">
 
@@ -72,9 +72,7 @@
     "url": "https://bishwaghimire.com.np/",
     "mainEntityOfPage": "https://bishwaghimire.com.np/",
     "image": [
-    "https://bishwaghimire.com.np/assets/my-profile.jpg",
-    "https://bishwaghimire.com.np/assets/my-profile-512.jpg",
-    "https://bishwaghimire.com.np/assets/my-profile-1024.jpg"
+    "https://bishwaghimire.com.np/assets/my-profile.jpg"
     ],
     "jobTitle": "AI & Machine Learning Developer",
     "hasOccupation": {
@@ -171,7 +169,7 @@
       margin: 0;
     }
   </style>
-  
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4V8JF0MJ0B"></script>
   <script>
@@ -181,6 +179,14 @@
 
     gtag('config', 'G-4V8JF0MJ0B');
   </script>
+
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "vzcf712e1y");
+</script>
 
 </head>
 <body>
@@ -703,6 +709,11 @@
         });
         if (response.ok) {
           showToast("✅ Message sent successfully!", "success");
+          // GA4 event
+          gtag('event', 'contact_form_submit', {
+            event_category: 'contact',
+            event_label: document.getElementById('contact-subject').value || 'No subject'
+          });
           form.reset();
         } else {
           showToast("❌ Something went wrong. Try again.", "error");

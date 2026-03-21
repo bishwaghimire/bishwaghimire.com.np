@@ -235,6 +235,10 @@ function renderProjects(projects) {
 }
 
 function openModal(project) {
+
+  // ADD THIS LINE at the top
+  gtagEvent('project_view', { project_name: project.title, project_tech: project.tech });
+
   modalTitle.textContent = project.title;
   modalDesc.textContent  = project.description;
   modalTech.textContent  = 'Tech Stack: ' + project.tech;
@@ -573,6 +577,7 @@ userInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(
 function sendMessage() {
   const msg = userInput.value.trim();
   if (!msg) return;
+  gtagEvent('chatbot_message_sent', { message_length: msg.length }); 
   addMessage('user', msg);
   userInput.value = '';
   respondTo(msg);
@@ -605,6 +610,14 @@ function openChatFn() {
 }
 
 function closeChatFn() {
+
+  // ADD THIS at the top
+  if (chatOpenTime) {
+    const seconds = Math.round((Date.now() - chatOpenTime) / 1000);
+    gtagEvent('chatbot_session', { seconds_spent: seconds, label: seconds + 's on chatbot' });
+    chatOpenTime = null;
+  }
+
   chatbot.classList.remove('chat-visible');
   chatToggle.classList.remove('chat-is-open');
   chatToggle.setAttribute('aria-expanded', 'false');
@@ -795,3 +808,120 @@ function getFollowUpChips(matched) {
     }
   });
 })();
+
+/* ================================================================
+   GA4 CUSTOM EVENT TRACKING
+================================================================ */
+
+function gtagEvent(name, params = {}) {
+  if (typeof gtag !== 'undefined') gtag('event', name, params);
+}
+
+/* ── 1. Resume view ── */
+$id('resumeViewBtn')?.addEventListener('click', () => {
+  gtagEvent('resume_view', { method: 'modal' });
+});
+
+/* ── 2. Resume download ── */
+document.querySelector('.resume-download-btn')?.addEventListener('click', () => {
+  gtagEvent('resume_download', { method: 'desktop_button' });
+});
+
+/* ── Mobile resume fallback download ── */
+document.querySelector('.resume-fallback-btn.secondary')?.addEventListener('click', () => {
+  gtagEvent('resume_download', { method: 'mobile_fallback' });
+});
+
+/* ── Mobile resume open full PDF ── */
+document.querySelector('.resume-fallback-btn.primary')?.addEventListener('click', () => {
+  gtagEvent('resume_open_pdf', { method: 'mobile_fallback' });
+});
+
+/* ── 3. Chatbot opened ── */
+$id('chat-toggle')?.addEventListener('click', () => {
+  gtagEvent('chatbot_open');
+});
+
+/* ── 4. Social links ── */
+document.querySelectorAll('.social-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    const label = link.getAttribute('aria-label') || '';
+    const platform = label.includes('GitHub')   ? 'GitHub'
+                   : label.includes('LinkedIn') ? 'LinkedIn'
+                   : label.includes('Facebook') ? 'Facebook'
+                   : label.includes('X (Twitter)') ? 'X'
+                   : 'Unknown';
+    gtagEvent('social_click', { platform });
+  });
+});
+
+/* ── 5. Project card opened (modal) ── */
+
+/* ── 6. Project GitHub link clicked (inside modal) ── */
+$id('modalGithub')?.addEventListener('click', () => {
+  gtagEvent('project_github_click', {
+    project_name: $id('modalTitle')?.textContent || 'unknown'
+  });
+});
+
+/* ── 7. Project demo link clicked (inside modal) ── */
+$id('modalDemo')?.addEventListener('click', () => {
+  gtagEvent('project_demo_click', {
+    project_name: $id('modalTitle')?.textContent || 'unknown'
+  });
+});
+
+/* ── 8. Contact form submitted (only on success) ── */
+// Already handled inside the inline <script> in index.html — don't add again here
+
+/* ── 9. Section visibility (fires once per section per page load) ── */
+const trackingSections = ['about', 'projects', 'skills', 'research', 'experience', 'contact'];
+const sectionTracker = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      gtagEvent('section_viewed', { section_name: entry.target.id });
+      sectionTracker.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+trackingSections.forEach(id => {
+  const el = $id(id);
+  if (el) sectionTracker.observe(el);
+});
+
+/* ── 10. Scroll depth milestones ── */
+const depthFired = {};
+window.addEventListener('scroll', () => {
+  const scrollPct = Math.round(
+    (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
+  );
+  [25, 50, 75, 90].forEach(milestone => {
+    if (scrollPct >= milestone && !depthFired[milestone]) {
+      depthFired[milestone] = true;
+      gtagEvent('scroll_depth', { depth_percent: milestone, label: milestone + '%' });
+    }
+  });
+});
+
+/* ── 11. Time on page (fires at 30s and 60s) ── */
+[5000, 10000, 30000, 60000, 120000].forEach(ms => {
+  setTimeout(() => {
+    gtagEvent('time_on_page', { seconds: ms / 1000 });
+  }, ms);
+});
+
+/* ── 12. Dark mode toggled ── */
+$id('darkModeToggle')?.addEventListener('click', () => {
+  const isNowDark = document.body.classList.contains('dark-mode');
+  gtagEvent('theme_toggle', { theme: isNowDark ? 'light' : 'dark' });
+});
+
+/* ── 13. Chatbot message sent ── */
+
+/* ── 14. Chatbot session duration ── */
+let chatOpenTime = null;
+
+$id('chat-toggle')?.addEventListener('click', () => {
+  chatOpenTime = Date.now();
+});
