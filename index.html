@@ -64,6 +64,16 @@
   <meta name="twitter:description" content="AI & ML Developer from Nepal specializing in Deep Learning, Computer Vision, and Nepali NLP using Python and PyTorch. Explore my projects and research." />
   <meta name="twitter:image"       content="https://www.bishwaghimire.com.np/assets/my-profile-1200x630.png" />
 
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://cdnjs.cloudflare.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+    font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+    img-src 'self' data: https:;
+    connect-src 'self' https://formspree.io https://www.google-analytics.com;
+  ">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
   <!-- JSON-LD STRUCTURED DATA -->
   <script type="application/ld+json">
   {
@@ -72,7 +82,10 @@
     "@id": "https://www.bishwaghimire.com.np/#person",
     "name": "Bishwa Ghimire",
     "url": "https://www.bishwaghimire.com.np/",
-    "mainEntityOfPage": "https://www.bishwaghimire.com.np/",
+    "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://www.bishwaghimire.com.np/"
+    },
     "image": [
     "https://www.bishwaghimire.com.np/assets/my-profile.jpg"
     ],
@@ -121,13 +134,6 @@
       "https://www.facebook.com/bishwaghimire4560",
       "https://x.com/bishwa4560"
     ]
-  },
-  {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Bishwa Ghimire Portfolio",
-  "url": "https://www.bishwaghimire.com.np/",
-  "logo": "https://www.bishwaghimire.com.np/assets/bishwa_logo.png"
   }
   </script>
 
@@ -136,7 +142,7 @@
  "@context": "https://schema.org",
  "@type": "WebSite",
  "@id": "https://www.bishwaghimire.com.np/#website",
- "name": "Bishwa Ghimire Portfolio",
+ "name": "Bishwa Ghimire",
  "url": "https://www.bishwaghimire.com.np/",
  "inLanguage": "en",
  "author": {
@@ -150,6 +156,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <!-- Already have preconnect for fonts -->
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.clarity.ms">
+  <link rel="dns-prefetch" href="https://formspree.io">
 
   <!-- FONTS -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -270,7 +280,7 @@
           <a href="https://github.com/bishwaghimire" target="_blank" rel="noopener noreferrer" aria-label="Visit Bishwa Ghimire's GitHub profile">
             <i class="fab fa-github" aria-hidden="true"></i>
           </a>
-          <a href="https://www.linkedin.com/in/bishwa-ghimire-66bb5939b" target="_blank" rel="noopener noreferrer" aria-label="Visit Bishwa Ghimire's LinkedIn profile">
+          <a href="https://www.linkedin.com/in/bishwaghimire" target="_blank" rel="noopener noreferrer" aria-label="Visit Bishwa Ghimire's LinkedIn profile">
             <i class="fab fa-linkedin-in" aria-hidden="true"></i>
           </a>
           <a href="https://www.facebook.com/bishwaghimire4560" target="_blank" rel="noopener noreferrer" aria-label="Visit Bishwa Ghimire's Facebook profile">
@@ -286,7 +296,7 @@
         <img src="assets/my-profile.jpg"
              alt="Bishwa Ghimire, AI Developer Nepal, Machine Learning Engineer Nepal, PyTorch Developer, Deep Learning Researcher, Computer Vision Developer"
              width="280" height="280"
-             loading="eager" fetchpriority="high">
+             loading="eager" fetchpriority="high" decoding="async">
       </div>
     </div>
   </section>
@@ -689,7 +699,6 @@
     </p>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script src="script.js" defer></script>
   <script>
     document.getElementById('footer-year').textContent = new Date().getFullYear();

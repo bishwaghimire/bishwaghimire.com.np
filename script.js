@@ -17,6 +17,7 @@ function applyDark(on) {
   document.body.classList.toggle('dark-mode', on);
   toggleIcon.textContent  = on ? '☀️' : '🌙';
   toggleLabel.textContent = on ? 'Light' : 'Dark';
+  darkBtn.setAttribute('aria-pressed', on);
   localStorage.setItem('darkMode', on ? '1' : '0');
 }
 
@@ -76,9 +77,9 @@ document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     if (hamburger.classList.contains('open'))        openMenu(false);
-    if (modal.style.display === 'flex')              closeModalFn();
-    if (chatbot.classList.contains('chat-visible'))  closeChatFn();
-    if (resumeModal.style.display === 'flex')        closeResumeFn();
+    if (modal?.style.display === 'flex')              closeModalFn();
+    if (chatbot?.classList.contains('chat-visible'))  closeChatFn();
+    if (resumeModal?.style.display === 'flex')        closeResumeFn();
   }
 });
 
@@ -126,7 +127,19 @@ resumeViewBtn.addEventListener('click', () => {
     resumeDesktopHeader.style.display = 'none';
     resumeFrame.style.display = 'none';
     resumeMobileFallback.style.display = 'flex';
-    renderResumePDF();
+
+    if (typeof pdfjsLib !== 'undefined') {
+      renderResumePDF();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+      script.onload = () => {
+        pdfjsLib.GlobalWorkerOptions.workerSrc =
+          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        renderResumePDF();
+      };
+      document.head.appendChild(script);
+    }
   } else {
     resumeDesktopHeader.style.display = 'flex';
     resumeFrame.src = RESUME_PATH + '#toolbar=0&zoom=80';
@@ -150,9 +163,17 @@ resumeModal.addEventListener('click', e => {
   if (e.target === resumeModal) closeResumeFn();
 });
 
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
+  function loadPdfJs(callback) {
+  if (typeof pdfjsLib !== 'undefined') return callback();
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+  script.onload = () => {
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    callback();
+  };
+  document.head.appendChild(script);
+}
 function renderResumePDF() {
   const canvas = $id('resumeCanvas');
   if (!canvas || canvas.dataset.rendered === '1') return;
@@ -170,6 +191,8 @@ function renderResumePDF() {
   });
 }
 
+// Call this whenever you need to render:
+// loadPdfJs(renderResumePDF);
 
 /* ================================================================
    PROJECTS
@@ -270,6 +293,30 @@ function openModal(project) {
 
   modal.style.display = 'flex';
   document.body.classList.add('modal-open');
+
+  // ADD FOCUS TRAP
+  const focusableElements = modal.querySelectorAll(
+    'button, a[href], [tabindex]:not([tabindex="-1"])'
+  );
+  const firstFocusable = focusableElements[0];
+  const lastFocusable = focusableElements[focusableElements.length - 1];
+  
+  modal.addEventListener('keydown', function trapFocus(e) {
+    if (e.key !== 'Tab') return;
+    
+    if (e.shiftKey) {
+      if (document.activeElement === firstFocusable) {
+        e.preventDefault();
+        lastFocusable.focus();
+      }
+    } else {
+      if (document.activeElement === lastFocusable) {
+        e.preventDefault();
+        firstFocusable.focus();
+      }
+    }
+  });
+
   modalTitle.setAttribute('tabindex', '-1');
   modalTitle.focus();
 }
@@ -592,11 +639,15 @@ function getCurrentTime() {
   return `${h}:${m} ${ampm}`;
 }
 
+let chatOpenTime = null;
+
 function openChatFn() {
   chatbot.classList.add('chat-visible');
   chatToggle.classList.add('chat-is-open');
   chatToggle.setAttribute('aria-expanded', 'true');
   document.body.classList.add('chat-open');
+
+  chatOpenTime = Date.now();
 
   if (!sessionGreeted) {
     setTimeout(() => addMessage('bot', "Hello. I'm Bishwa Bot."), 300);
@@ -838,9 +889,9 @@ document.querySelector('.resume-fallback-btn.primary')?.addEventListener('click'
 });
 
 /* ── 3. Chatbot opened ── */
-$id('chat-toggle')?.addEventListener('click', () => {
-  gtagEvent('chatbot_open');
-});
+// $id('chat-toggle')?.addEventListener('click', () => {
+//   gtagEvent('chatbot_open');
+// });
 
 /* ── 4. Social links ── */
 document.querySelectorAll('.social-links a').forEach(link => {
@@ -893,9 +944,9 @@ trackingSections.forEach(id => {
 /* ── 10. Scroll depth milestones ── */
 const depthFired = {};
 window.addEventListener('scroll', () => {
-  const scrollPct = Math.round(
-    (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
-  );
+  const denominator = document.body.scrollHeight - window.innerHeight;
+  if (denominator <= 0) return; // Prevent division by zero
+  const scrollPct = Math.round((window.scrollY / denominator) * 100);
   [25, 50, 75, 90].forEach(milestone => {
     if (scrollPct >= milestone && !depthFired[milestone]) {
       depthFired[milestone] = true;
@@ -920,8 +971,6 @@ $id('darkModeToggle')?.addEventListener('click', () => {
 /* ── 13. Chatbot message sent ── */
 
 /* ── 14. Chatbot session duration ── */
-let chatOpenTime = null;
-
 $id('chat-toggle')?.addEventListener('click', () => {
   chatOpenTime = Date.now();
 });
