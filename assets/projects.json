@@ -5,7 +5,7 @@
     "short": "Deep Learning based Nepali OCR system",
     "description": "A deep learning research project focused on recognizing 59 classes of Nepali handwritten characters using Convolutional Neural Networks (CNN). The project includes dataset preprocessing, model architecture design, training optimization, and detailed character-wise accuracy analysis using PyTorch.",
     "tech": "Python, PyTorch, NumPy, Matplotlib",
-    "image": "assets/projects/profile.jpg",
+    "image": "assets/projects/nepali-ocr-cnn.png",
     "github": "https://github.com/bishwaghimire/nepali-handwritten-character-recognition-CNNs",
     "demo": "#"
   },
@@ -25,7 +25,7 @@
     "short": "Text Classification with TF-IDF and Logistic Regression",
     "description": "An NLP-based text classification system designed to detect fake news headlines. The project applies text preprocessing techniques, TF-IDF vectorization, and Logistic Regression to classify news articles with performance evaluation and model comparison.",
     "tech": "Python, NLP, Scikit-Learn, TF-IDF",
-    "image": "assets/projects/profile.jpg",
+    "image": "assets/projects/fake-news-detection.png",
     "github": "https://github.com/bishwaghimire/fake-news-detection",
     "demo": "#"
   },
