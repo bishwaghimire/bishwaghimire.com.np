@@ -7,17 +7,17 @@
     "tech": "Python, PyTorch, NumPy, Matplotlib",
     "image": "assets/projects/nepali-ocr-cnn.png",
     "github": "https://github.com/bishwaghimire/nepali-handwritten-character-recognition-CNNs",
-    "demo": "#"
+    "demo": ""
   },
   {
-    "id": "titanic",
-    "title": "Titanic Survival Prediction",
-    "short": "Supervised Machine Learning Classification Model",
-    "description": "A supervised machine learning model trained on the Titanic dataset to predict passenger survival. The project includes data cleaning, exploratory data analysis (EDA), feature engineering, and model training using Logistic Regression and other classifiers with performance evaluation metrics.",
-    "tech": "Python, Pandas, Scikit-Learn, Matplotlib",
-    "image": "assets/projects/profile.jpg",
-    "github": "https://github.com/bishwaghimire/titanic-survival-prediction",
-    "demo": "#"
+  "id": "smart-attendance-system",
+  "title": "AI Face Recognition Attendance System using Python and CV",
+  "short": "Real-time Face Recognition based Smart Classroom System",
+  "description": "An AI-powered smart classroom monitoring and attendance system that uses computer vision and face recognition to identify students in real time through webcam input. The project includes dataset creation, face encoding, model training, and live face recognition using OpenCV and the face_recognition library.",
+  "tech": "Python, OpenCV, face_recognition, dlib, NumPy",
+  "image": "assets/projects/face-recognition-attendance-system.png",
+  "github": "https://github.com/bishwaghimire/ai-face-recognition-attendance-system-using-python-and-cv",
+  "demo": ""
   },
   {
     "id": "fake-news",
@@ -27,7 +27,17 @@
     "tech": "Python, NLP, Scikit-Learn, TF-IDF",
     "image": "assets/projects/fake-news-detection.png",
     "github": "https://github.com/bishwaghimire/fake-news-detection",
-    "demo": "#"
+    "demo": ""
+  },
+  {
+    "id": "titanic",
+    "title": "Titanic Survival Prediction",
+    "short": "Supervised Machine Learning Classification Model",
+    "description": "A supervised machine learning model trained on the Titanic dataset to predict passenger survival. The project includes data cleaning, exploratory data analysis (EDA), feature engineering, and model training using Logistic Regression and other classifiers with performance evaluation metrics.",
+    "tech": "Python, Pandas, Scikit-Learn, Matplotlib",
+    "image": "assets/projects/profile.jpg",
+    "github": "https://github.com/bishwaghimire/titanic-survival-prediction",
+    "demo": ""
   },
   {
     "id": "iris",
@@ -37,7 +47,7 @@
     "tech": "Python, Scikit-Learn, Pandas",
     "image": "assets/projects/profile.jpg",
     "github": "https://github.com/bishwaghimire/iris-classifier",
-    "demo": "#"
+    "demo": ""
   },
   {
     "id": "ott",
@@ -47,6 +57,6 @@
     "tech": "HTML, CSS, JavaScript",
     "image": "assets/projects/profile.jpg",
     "github": "https://github.com/bishwaghimire/mini-ott-platform",
-    "demo": "#"
+    "demo": ""
   }
 ]
